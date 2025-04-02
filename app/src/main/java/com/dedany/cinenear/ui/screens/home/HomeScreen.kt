@@ -22,11 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +34,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.data.Movie
-import com.dedany.cinenear.data.movies
 import com.dedany.cinenear.ui.common.PermissionRequestEffect
 import com.dedany.cinenear.ui.common.getRegion
 import com.dedany.cinenear.ui.theme.Screen
@@ -61,68 +56,67 @@ fun HomeScreen(
             vm.onUiReady(region)
         }
     }
-        Screen {
-            val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Screen {
+        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text(text = stringResource(id = R.string.app_name)) },
-                        scrollBehavior = scrollBehavior,
-                    )
-                },
-                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                contentWindowInsets = WindowInsets.safeDrawing,
-            ) { padding ->
-                val state = vm.state
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.app_name)) },
+                    scrollBehavior = scrollBehavior,
+                )
+            },
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentWindowInsets = WindowInsets.safeDrawing,
+        ) { padding ->
+            val state = vm.state
 
-                if (state.loading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(120.dp),
-                    contentPadding = padding,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(horizontal = 4.dp)
+            if (state.loading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
+                    contentAlignment = Alignment.Center
                 ) {
-                    items(state.movies, key = { it.id }) {
-                        MovieItem(movie = it) { onMovieClick(it) }
-                    }
+                    CircularProgressIndicator()
+                }
+            }
+
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(120.dp),
+                contentPadding = padding,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(horizontal = 4.dp)
+            ) {
+                items(state.movies, key = { it.id }) {
+                    MovieItem(movie = it) { onMovieClick(it) }
                 }
             }
         }
     }
+}
 
 
+@Composable
+fun MovieItem(movie: Movie, onClick: () -> Unit) {
+    Column(
+        modifier = Modifier.clickable(onClick = onClick)
+    ) {
+        AsyncImage(
+            model = movie.poster,
+            contentDescription = movie.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(2 / 3f)
+                .clip(MaterialTheme.shapes.large)
 
-    @Composable
-    fun MovieItem(movie: Movie, onClick: () -> Unit) {
-        Column(
-            modifier = Modifier.clickable(onClick = onClick)
-        ) {
-            AsyncImage(
-                model = movie.poster,
-                contentDescription = movie.title,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2 / 3f)
-                    .clip(MaterialTheme.shapes.large)
-
-            )
-            Text(
-                text = movie.title,
-                style = MaterialTheme.typography.bodySmall,
-                maxLines = 1,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
+        )
+        Text(
+            text = movie.title,
+            style = MaterialTheme.typography.bodySmall,
+            maxLines = 1,
+            modifier = Modifier.padding(8.dp)
+        )
     }
+}
