@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.data.Movie
 import com.dedany.cinenear.data.MoviesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -18,10 +17,10 @@ class HomeViewModel : ViewModel() {
 
     private val repository = MoviesRepository()
 
+
     fun onUiReady(region: String) {
         viewModelScope.launch {
             state = UiState(loading = true)
-            delay(2000)
             state = UiState(loading = false, movies = repository.fetchPopularMovies(region))
         }
     }

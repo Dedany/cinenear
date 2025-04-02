@@ -45,43 +45,48 @@ import com.dedany.cinenear.ui.theme.Screen
 import kotlinx.coroutines.launch
 
 
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onMovieClick: (Movie) -> Unit) {
+    onMovieClick: (Movie) -> Unit,
+    vm: HomeViewModel = viewModel()
+) {
 
-    val appName = stringResource(id = R.string.app_name)
-    var appBarTitle by remember { mutableStateOf(appName) }
     val ctx = LocalContext.current.applicationContext
     val coroutineScope = rememberCoroutineScope()
 
     PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) { granted ->
-        if (granted) {
-            coroutineScope.launch {
-                val region = ctx.getRegion()
-                appBarTitle = "$appBarTitle ($region)"
-            }
-        } else {
-            appBarTitle = "$appBarTitle (Permission denied)"
+        coroutineScope.launch {
+            val region = if (granted) ctx.getRegion() else "US"
+            vm.onUiReady(region)
         }
     }
+        Screen {
+            val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    Screen {
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { Text(text = stringResource(id = R.string.app_name)) },
+                        scrollBehavior = scrollBehavior,
+                    )
+                },
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                contentWindowInsets = WindowInsets.safeDrawing,
+            ) { padding ->
+                val state = vm.state
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = appBarTitle) },
-                    scrollBehavior = scrollBehavior
-                )
-            },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentWindowInsets = WindowInsets.safeDrawing
-        ) { padding ->
+                if (state.loading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(120.dp),
                     contentPadding = padding,
@@ -89,7 +94,7 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.padding(horizontal = 4.dp)
                 ) {
-                    items(movies, key = { it.id }) {
+                    items(state.movies, key = { it.id }) {
                         MovieItem(movie = it) { onMovieClick(it) }
                     }
                 }
@@ -99,26 +104,25 @@ fun HomeScreen(
 
 
 
+    @Composable
+    fun MovieItem(movie: Movie, onClick: () -> Unit) {
+        Column(
+            modifier = Modifier.clickable(onClick = onClick)
+        ) {
+            AsyncImage(
+                model = movie.poster,
+                contentDescription = movie.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(2 / 3f)
+                    .clip(MaterialTheme.shapes.large)
 
-@Composable
-fun MovieItem(movie: Movie, onClick: () -> Unit) {
-    Column(
-        modifier = Modifier.clickable(onClick = onClick)
-    ) {
-        AsyncImage(
-            model = movie.poster,
-            contentDescription = movie.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(2 / 3f)
-                .clip(MaterialTheme.shapes.large)
-
-        )
-        Text(
-            text = movie.title,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 1,
-            modifier = Modifier.padding(8.dp)
-        )
+            )
+            Text(
+                text = movie.title,
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 1,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
     }
-}

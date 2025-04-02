@@ -8,11 +8,16 @@ class MoviesRepository {
             .fetchPopularMovies(region)
             .results
             .map { it.toDomainModel() }
-}
 
-private fun RemoteMovie.toDomainModel(): Movie =
+}
+private fun RemoteMovie.toDomainModel():Movie=
     Movie(
-        id = id,
-        title = title,
-        poster = "https://image.tmdb.org/t/p/w500/$posterPath"
+        id=id,
+        title=title,
+        poster = "https://image.tmdb.org/t/p/w185/$posterPath"
     )
+
+
+
+
+

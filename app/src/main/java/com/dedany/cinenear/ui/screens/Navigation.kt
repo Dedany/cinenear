@@ -1,6 +1,8 @@
 package com.dedany.cinenear.ui.screens
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavArgs
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,15 +23,13 @@ fun Navigation() {
             })
         }
         composable(
-            "detail/{movieId}",
+            route = "detail/{movieId}",
             arguments = listOf(navArgument("movieId") { type = NavType.IntType })
-        ) { backstackEntry ->
-            val movieId = backstackEntry.arguments?.getInt("movieId")
+        ) { backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("movieId")
             DetailScreen(
-                movies.first { it.id == movieId },
-                onBack = { navController.popBackStack() }
-            )
-
+                movie = movies.first { it.id == movieId },
+                onBack = { navController.popBackStack() })
         }
     }
 }
