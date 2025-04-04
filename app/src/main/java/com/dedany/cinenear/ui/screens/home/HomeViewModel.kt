@@ -7,21 +7,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.data.Movie
 import com.dedany.cinenear.data.MoviesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 
 class HomeViewModel : ViewModel() {
 
-    var state by mutableStateOf(UiState())
-        private set
+   private val _state = MutableStateFlow(UiState())
+    val state  = _state
+
 
     private val repository = MoviesRepository()
 
 
     fun onUiReady(region: String) {
         viewModelScope.launch {
-            state = UiState(loading = true)
-            state = UiState(loading = false, movies = repository.fetchPopularMovies(region))
+            _state.value = UiState(loading = true)
+            _state.value = UiState(loading = false, movies = repository.fetchPopularMovies(region))
         }
     }
 

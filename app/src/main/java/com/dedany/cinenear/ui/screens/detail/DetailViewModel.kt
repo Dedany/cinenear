@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.data.Movie
 import com.dedany.cinenear.data.MoviesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -14,13 +15,13 @@ class DetailViewModel(private val id: Int) : ViewModel() {
 
     private val repository = MoviesRepository()
 
-    var state by mutableStateOf(UiState())
-        private set
+    private var _state = MutableStateFlow(UiState())
+        var state = _state
 
     init {
         viewModelScope.launch {
-            state = UiState(loading = true)
-            state = UiState(loading = false, movie = repository.findMovieById(id))
+            state.value = UiState(loading = true)
+            state.value = UiState(loading = false, movie = repository.findMovieById(id))
         }
     }
 
