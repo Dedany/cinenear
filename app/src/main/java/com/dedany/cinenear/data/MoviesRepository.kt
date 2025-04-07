@@ -1,5 +1,7 @@
 package com.dedany.cinenear.data
 
+import android.annotation.SuppressLint
+
 class MoviesRepository {
 
     suspend fun fetchPopularMovies(region: String): List<Movie> =
@@ -16,6 +18,7 @@ class MoviesRepository {
             .toDomainModel()
 }
 
+@SuppressLint("DefaultLocale")
 private fun RemoteMovie.toDomainModel(): Movie =
     Movie(
         id = id,

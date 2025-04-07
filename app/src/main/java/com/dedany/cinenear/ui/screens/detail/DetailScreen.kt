@@ -9,18 +9,25 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -35,6 +42,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.data.Movie
@@ -48,6 +58,15 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
 
     val state by vm.state.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(state.message) {
+        state.message?.let {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            snackbarHostState.showSnackbar(it)
+            vm.onMessageShow()
+        }
+    }
     Screen {
         Scaffold(
             topBar = {
@@ -57,6 +76,15 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
                     onBack = onBack
                 )
             },
+            floatingActionButton = {
+                FloatingActionButton({ vm.onFavoriteClick() }) {
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        contentDescription = stringResource(id = R.string.back)
+                    )
+                }
+            },
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
 
@@ -66,8 +94,7 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
 
             state.movie?.let { movie ->
                 MovieDetail(
-                    movie,
-                    modifier = Modifier.padding(padding)
+                    movie, modifier = Modifier.padding(padding)
                 )
             }
         }
@@ -77,28 +104,22 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun DetailTopBar(
-    title: String,
-    scrollBehavior: TopAppBarScrollBehavior,
-    onBack: () -> Unit
+    title: String, scrollBehavior: TopAppBarScrollBehavior, onBack: () -> Unit
 ) {
-    TopAppBar(
-        title = { Text(text = title) },
-        navigationIcon = {
-            IconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back)
-                )
-            }
-        },
-        scrollBehavior = scrollBehavior
+    TopAppBar(title = { Text(text = title) }, navigationIcon = {
+        IconButton(onClick = onBack) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                contentDescription = stringResource(id = R.string.back)
+            )
+        }
+    }, scrollBehavior = scrollBehavior
     )
 }
 
 @Composable
 private fun MovieDetail(
-    movie: Movie,
-    modifier: Modifier = Modifier
+    movie: Movie, modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
@@ -112,21 +133,22 @@ private fun MovieDetail(
                 .aspectRatio(16 / 9f)
         )
         Text(
-            text = movie.overview,
-            modifier = Modifier.padding(16.dp)
+            text = movie.overview, modifier = Modifier.padding(16.dp)
         )
-        Text(buildAnnotatedString {
-            Property("Original title", movie.originalTitle)
-            Property("Original language", movie.originalLanguage)
-            Property("Release date", movie.releaseDate)
-            Property("IMDB", movie.voteAverage.toString())
-            Property("Popularity", movie.popularity.toString())
-            Property("Vote count", movie.voteAverage.toString())
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.secondaryContainer)
-            .padding(16.dp))
+        Text(
+            buildAnnotatedString {
+                Property("Original title", movie.originalTitle)
+                Property("Original language", movie.originalLanguage)
+                Property("Release date", movie.releaseDate)
+                Property("IMDB", movie.voteAverage.toString())
+                Property("Popularity", movie.popularity.toString())
+                Property("Vote count", movie.voteAverage.toString())
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                .padding(16.dp)
+        )
     }
 }
 
