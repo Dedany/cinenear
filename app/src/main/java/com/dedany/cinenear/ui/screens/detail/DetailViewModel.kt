@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
 class DetailViewModel(private val id: Int) : ViewModel() {
     private val repository: MoviesRepository = MoviesRepository()
 
-    private var _state = MutableStateFlow(UiState())
-
+    private val _state = MutableStateFlow(UiState())
     var state: StateFlow<UiState> = _state.asStateFlow()
 
     data class UiState(
@@ -38,11 +37,11 @@ class DetailViewModel(private val id: Int) : ViewModel() {
     }
 
 
-    fun onFavoriteClick() {
-        _state.update { it.copy(message = "Added to favorites") }
+    fun onFavoriteClicked() {
+        _state.update { it.copy(message = "Favorite clicked") }
     }
 
-    fun onMessageShow() {
+    fun onMessageShown() {
         _state.update { it.copy(message = null) }
     }
 }

@@ -48,27 +48,21 @@ fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
+    val homeState = rememberHomeState()
 
-    val ctx = LocalContext.current.applicationContext
-    val coroutineScope = rememberCoroutineScope()
+    homeState.AskRegionEffect { vm.onUiReady(it) }
 
-    PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) { granted ->
-        coroutineScope.launch {
-            val region = if (granted) ctx.getRegion() else "US"
-            vm.onUiReady(region)
-        }
-    }
     Screen {
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
 
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = { Text(text = stringResource(id = R.string.app_name)) },
-                    scrollBehavior = scrollBehavior,
+                    scrollBehavior = homeState.scrollBehavior,
                 )
             },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier.nestedScroll(homeState.scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
         ) { padding ->
             val state by vm.state.collectAsState()

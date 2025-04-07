@@ -56,36 +56,31 @@ import com.dedany.cinenear.ui.theme.Screen
 @Composable
 fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
 
+    val detailState = rememberDetailState()
     val state by vm.state.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(state.message) {
-        state.message?.let {
-            snackbarHostState.currentSnackbarData?.dismiss()
-            snackbarHostState.showSnackbar(it)
-            vm.onMessageShow()
-        }
+    detailState.ShowMessageEffect(message = state.message) {
+        vm.onMessageShown()
     }
     Screen {
         Scaffold(
             topBar = {
                 DetailTopBar(
                     title = state.movie?.title ?: "",
-                    scrollBehavior = scrollBehavior,
+                    scrollBehavior = detailState.scrollBehavior,
                     onBack = onBack
                 )
             },
             floatingActionButton = {
-                FloatingActionButton({ vm.onFavoriteClick() }) {
+                FloatingActionButton({ vm.onFavoriteClicked() }) {
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.back)
                     )
                 }
             },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            snackbarHost = { SnackbarHost(hostState = detailState.snackbarHostState) },
+            modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
         ) { padding ->
 
             if (state.loading) {

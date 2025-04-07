@@ -30,7 +30,7 @@ private fun RemoteMovie.toDomainModel(): Movie =
         originalTitle = originalTitle,
         originalLanguage = originalLanguage,
         popularity = String.format("%.1f", popularity.toFloat()),
-        voteAverage = String.format("%.1f", voteAverage.toFloat())
+        voteAverage = String.format("%.1f", voteAverage.toFloat()),
     )
 
 

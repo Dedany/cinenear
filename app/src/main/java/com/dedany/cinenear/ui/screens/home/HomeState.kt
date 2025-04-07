@@ -35,5 +35,5 @@ class HomeState @OptIn(ExperimentalMaterial3Api::class) constructor(
 fun rememberHomeState(
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 ) : HomeState{
-    return remember { HomeState(scrollBehavior) }
+    return remember (scrollBehavior){ HomeState(scrollBehavior) }
     }
