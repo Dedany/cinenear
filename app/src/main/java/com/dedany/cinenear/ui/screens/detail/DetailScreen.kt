@@ -60,7 +60,7 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
     val state by vm.state.collectAsState()
 
     detailState.ShowMessageEffect(message = state.message) {
-        vm.onMessageShown()
+        vm.onAction(DetailAction.MessageShown)
     }
     Screen {
         Scaffold(
@@ -72,7 +72,7 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton({ vm.onFavoriteClicked() }) {
+                FloatingActionButton(onClick = { vm.onAction(DetailAction.FavoriteClick) }) {
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.back)
