@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import com.dedany.cinenear.data.MoviesRepository
 import com.dedany.cinenear.data.RegionRepository
 import com.dedany.cinenear.data.datasource.LocationDataSource
+import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.data.datasource.RegionDataSource
 import com.dedany.cinenear.ui.screens.detail.DetailViewModel
 import com.dedany.cinenear.ui.screens.home.HomeViewModel
@@ -23,10 +24,9 @@ fun Navigation() {
     val navController = rememberNavController()
     val app = LocalContext.current.applicationContext as Application
     val moviesRepository = MoviesRepository(
-        RegionRepository(RegionDataSource(
-            app,
-            LocationDataSource(app)
-        ))
+        RegionRepository(
+            RegionDataSource(app, LocationDataSource(app))),
+            MoviesRemoteDataSource()
     )
     NavHost(navController = navController, startDestination = NavScreen.Home.route) {
         composable(NavScreen.Home.route) {
