@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.dedany.cinenear.ui.screens.Navigation
+import com.dedany.cinenear.ui.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
 

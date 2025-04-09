@@ -2,12 +2,14 @@ package com.dedany.cinenear.data
 
 import android.annotation.SuppressLint
 
-class MoviesRepository {
+class MoviesRepository (
+    private val regionRepository: RegionRepository
+){
 
-    suspend fun fetchPopularMovies(region: String): List<Movie> =
+    suspend fun fetchPopularMovies(): List<Movie> =
         MoviesClient
             .instance
-            .fetchPopularMovies(region)
+            .fetchPopularMovies(regionRepository.findLastRegion())
             .results
             .map { it.toDomainModel() }
 

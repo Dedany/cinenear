@@ -16,14 +16,16 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-sealed interface DetailAction{
+sealed interface DetailAction {
     data object FavoriteClick : DetailAction
     data object MessageShown : DetailAction
 }
 
 
-class DetailViewModel(private val id: Int) : ViewModel() {
-    private val repository: MoviesRepository = MoviesRepository()
+class DetailViewModel(
+    private val id: Int,
+    private val repository: MoviesRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     var state: StateFlow<UiState> = _state.asStateFlow()
@@ -41,8 +43,8 @@ class DetailViewModel(private val id: Int) : ViewModel() {
         }
     }
 
-    fun onAction(action: DetailAction){
-        when(action){
+    fun onAction(action: DetailAction) {
+        when (action) {
             is DetailAction.FavoriteClick -> onFavoriteClicked()
             is DetailAction.MessageShown -> onMessageShown()
         }
@@ -53,7 +55,7 @@ class DetailViewModel(private val id: Int) : ViewModel() {
         _state.update { it.copy(message = "Favorite clicked") }
     }
 
-   private fun onMessageShown() {
+    private fun onMessageShown() {
         _state.update { it.copy(message = null) }
     }
 }
