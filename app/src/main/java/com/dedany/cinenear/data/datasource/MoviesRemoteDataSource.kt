@@ -1,8 +1,8 @@
 package com.dedany.cinenear.data.datasource
 
 import com.dedany.cinenear.data.Movie
-import com.dedany.cinenear.data.MoviesClient
-import com.dedany.cinenear.data.RemoteMovie
+import com.dedany.cinenear.data.datasource.remote.MoviesClient
+import com.dedany.cinenear.data.datasource.remote.RemoteMovie
 
 class MoviesRemoteDataSource {
 
@@ -18,7 +18,6 @@ class MoviesRemoteDataSource {
             .instance
             .fetchMovieById(id)
             .toDomainModel()
-}
 }
 
 

@@ -1,4 +1,4 @@
-package com.dedany.cinenear.data
+package com.dedany.cinenear.data.datasource.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

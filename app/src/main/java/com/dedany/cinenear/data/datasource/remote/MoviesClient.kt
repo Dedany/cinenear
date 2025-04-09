@@ -1,4 +1,4 @@
-package com.dedany.cinenear.data
+package com.dedany.cinenear.data.datasource.remote
 
 import com.dedany.cinenear.BuildConfig
 import kotlinx.serialization.json.Json
