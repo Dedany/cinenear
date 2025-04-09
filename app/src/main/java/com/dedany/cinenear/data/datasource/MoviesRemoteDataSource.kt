@@ -20,7 +20,6 @@ class MoviesRemoteDataSource {
             .toDomainModel()
 }
 
-
 private fun RemoteMovie.toDomainModel(): Movie =
     Movie(
         id = id,

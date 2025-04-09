@@ -11,22 +11,24 @@ import androidx.navigation.navArgument
 import com.dedany.cinenear.ui.screens.detail.DetailScreen
 import com.dedany.cinenear.ui.screens.home.HomeScreen
 import androidx.navigation.compose.NavHost
+import com.dedany.cinenear.App
 import com.dedany.cinenear.data.MoviesRepository
 import com.dedany.cinenear.data.RegionRepository
 import com.dedany.cinenear.data.datasource.LocationDataSource
 import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.data.datasource.RegionDataSource
+import com.dedany.cinenear.data.datasource.remote.MoviesLocalDataSource
 import com.dedany.cinenear.ui.screens.detail.DetailViewModel
 import com.dedany.cinenear.ui.screens.home.HomeViewModel
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val app = LocalContext.current.applicationContext as Application
+    val app = LocalContext.current.applicationContext as App
     val moviesRepository = MoviesRepository(
-        RegionRepository(
-            RegionDataSource(app, LocationDataSource(app))),
-            MoviesRemoteDataSource()
+        RegionRepository(RegionDataSource(app, LocationDataSource(app))),
+        MoviesLocalDataSource (app.db.moviesDao()),
+        MoviesRemoteDataSource()
     )
     NavHost(navController = navController, startDestination = NavScreen.Home.route) {
         composable(NavScreen.Home.route) {
