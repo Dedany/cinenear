@@ -1,8 +1,5 @@
 package com.dedany.cinenear.ui.screens.home
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.data.Movie
@@ -21,7 +18,9 @@ class HomeViewModel(
     fun onUiReady() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(loading = false, movies = repository.fetchPopularMovies())
+            repository.movies.collect{movies->
+                _state.value = UiState(loading = false, movies = movies)
+            }
         }
     }
 
