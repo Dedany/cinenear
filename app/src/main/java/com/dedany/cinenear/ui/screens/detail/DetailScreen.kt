@@ -29,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -59,9 +60,6 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
     val detailState = rememberDetailState()
     val state by vm.state.collectAsState()
 
-    detailState.ShowMessageEffect(message = state.message) {
-        vm.onAction(DetailAction.MessageShown)
-    }
     Screen {
         Scaffold(
             topBar = {
@@ -72,10 +70,12 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { vm.onAction(DetailAction.FavoriteClick) }) {
+                val favorite = state.movie?.favorite ?: false
+                FloatingActionButton(onClick = { vm.onFavoriteClicked() }) {
                     Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
-                        contentDescription = stringResource(id = R.string.back)
+                        imageVector =if(favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = stringResource(id = R.string.back),
+                        tint = if (favorite) Color.Red else Color.Blue
                     )
                 }
             },

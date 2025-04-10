@@ -26,8 +26,7 @@ class DetailViewModel(
 
     data class UiState(
         val loading: Boolean = false,
-        val movie: Movie? = null,
-        val message: String? = null
+        val movie: Movie? = null
     )
 
     init {
@@ -39,19 +38,11 @@ class DetailViewModel(
         }
     }
 
-    fun onAction(action: DetailAction) {
-        when (action) {
-            is DetailAction.FavoriteClick -> onFavoriteClicked()
-            is DetailAction.MessageShown -> onMessageShown()
+    fun onFavoriteClicked() {
+        state.value.movie?.let {
+            viewModelScope.launch {
+                repository.toggleFavorite(it)
+            }
         }
-    }
-
-
-    private fun onFavoriteClicked() {
-        _state.update { it.copy(message = "Favorite clicked") }
-    }
-
-    private fun onMessageShown() {
-        _state.update { it.copy(message = null) }
     }
 }

@@ -27,6 +27,10 @@ class MoviesRepository(
                 }
             emit(movie)
         }
+
+    suspend fun toggleFavorite(movie: Movie) {
+        localDataSource.saveMovies(listOf(movie.copy(favorite = !movie.favorite)))
+    }
 }
 
 

@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,6 +37,7 @@ import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.data.Movie
 import com.dedany.cinenear.ui.common.PermissionRequestEffect
+import com.dedany.cinenear.ui.theme.CinenearTheme
 import com.dedany.cinenear.ui.theme.Screen
 
 
@@ -93,20 +98,34 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
     Column(
         modifier = Modifier.clickable(onClick = onClick)
     ) {
-        AsyncImage(
-            model = movie.poster,
-            contentDescription = movie.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(2 / 3f)
-                .clip(MaterialTheme.shapes.large)
+        CinenearTheme {
+            Box {
+                AsyncImage(
+                    model = movie.poster,
+                    contentDescription = movie.title,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(2 / 3f)
+                        .clip(MaterialTheme.shapes.large)
 
-        )
-        Text(
-            text = movie.title,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 1,
-            modifier = Modifier.padding(8.dp)
-        )
+                )
+                if (movie.favorite) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = stringResource(id = R.string.favorite),
+                        tint = MaterialTheme.colorScheme.inversePrimary,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.TopEnd)
+                    )
+                }
+                Text(
+                    text = movie.title,
+                    style = MaterialTheme.typography.bodySmall,
+                    maxLines = 1,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+        }
     }
 }
