@@ -98,7 +98,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
     Column(
         modifier = Modifier.clickable(onClick = onClick)
     ) {
-        CinenearTheme {
+
             Box {
                 AsyncImage(
                     model = movie.poster,
@@ -113,19 +113,12 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = stringResource(id = R.string.favorite),
-                        tint = MaterialTheme.colorScheme.inversePrimary,
+                        tint = Color.Red,
                         modifier = Modifier
                             .padding(8.dp)
                             .align(Alignment.TopEnd)
                     )
                 }
-                Text(
-                    text = movie.title,
-                    style = MaterialTheme.typography.bodySmall,
-                    maxLines = 1,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
         }
     }
 }
