@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.data.Movie
 import com.dedany.cinenear.data.MoviesRepository
+import com.dedany.cinenear.usecases.FetchMoviesUseCase
+import com.dedany.cinenear.usecases.FindMovieByIdUseCase
+import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,10 +24,11 @@ sealed interface DetailAction {
 
 class DetailViewModel(
     id: Int,
-    private val repository: MoviesRepository
+    findMovieByIdUseCase: FindMovieByIdUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
 ) : ViewModel() {
 
-   val state : StateFlow<UiState> = repository.findMovieById(id)
+   val state : StateFlow<UiState> = findMovieByIdUseCase(id)
        .map { UiState(movie = it) }
        .stateIn(
            scope = viewModelScope,
@@ -41,7 +45,7 @@ class DetailViewModel(
     fun onFavoriteClicked() {
         state.value.movie?.let {
             viewModelScope.launch {
-                repository.toggleFavorite(it)
+                toggleFavoriteUseCase(it)
             }
         }
     }

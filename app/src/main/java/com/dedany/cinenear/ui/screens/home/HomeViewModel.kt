@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.data.Movie
 import com.dedany.cinenear.data.MoviesRepository
+import com.dedany.cinenear.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 
 class HomeViewModel(
-    private val repository: MoviesRepository
+    private val fetchMoviesUseCase: FetchMoviesUseCase
 ) : ViewModel() {
 
     private val uiReady = MutableStateFlow(false)
@@ -25,8 +26,7 @@ class HomeViewModel(
     val state: StateFlow<UiState> = uiReady
         .filter { it }
         .flatMapLatest {
-            repository.movies
-        }
+            fetchMoviesUseCase() }
         .map { UiState(movies = it) }
         .stateIn(
             scope = viewModelScope,

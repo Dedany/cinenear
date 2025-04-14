@@ -20,6 +20,9 @@ import com.dedany.cinenear.data.datasource.RegionDataSource
 import com.dedany.cinenear.data.datasource.remote.MoviesLocalDataSource
 import com.dedany.cinenear.ui.screens.detail.DetailViewModel
 import com.dedany.cinenear.ui.screens.home.HomeViewModel
+import com.dedany.cinenear.usecases.FetchMoviesUseCase
+import com.dedany.cinenear.usecases.FindMovieByIdUseCase
+import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
 
 @Composable
 fun Navigation() {
@@ -27,7 +30,7 @@ fun Navigation() {
     val app = LocalContext.current.applicationContext as App
     val moviesRepository = MoviesRepository(
         RegionRepository(RegionDataSource(app, LocationDataSource(app))),
-        MoviesLocalDataSource (app.db.moviesDao()),
+        MoviesLocalDataSource(app.db.moviesDao()),
         MoviesRemoteDataSource()
     )
     NavHost(navController = navController, startDestination = NavScreen.Home.route) {
@@ -36,7 +39,7 @@ fun Navigation() {
                 onMovieClick = { movie ->
                     navController.navigate(NavScreen.Detail.createRoute(movie.id))
                 },
-                viewModel { HomeViewModel(moviesRepository) }
+                viewModel { HomeViewModel(FetchMoviesUseCase(moviesRepository)) }
             )
         }
         composable(
@@ -45,7 +48,13 @@ fun Navigation() {
         ) { backStackEntry ->
             val movieId = requireNotNull(backStackEntry.arguments?.getInt(NavArgs.MovieId.key))
             DetailScreen(
-                viewModel { DetailViewModel(movieId, moviesRepository) },
+                viewModel {
+                    DetailViewModel(
+                        movieId,
+                        FindMovieByIdUseCase(moviesRepository),
+                        ToggleFavoriteUseCase(moviesRepository)
+                    )
+                },
                 onBack = { navController.popBackStack() })
         }
     }
