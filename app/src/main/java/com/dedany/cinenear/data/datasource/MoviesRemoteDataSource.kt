@@ -1,6 +1,6 @@
 package com.dedany.cinenear.data.datasource
 
-import com.dedany.cinenear.data.Movie
+import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.data.datasource.remote.MoviesClient
 import com.dedany.cinenear.data.datasource.remote.RemoteMovie
 

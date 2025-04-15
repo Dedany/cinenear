@@ -2,8 +2,7 @@ package com.dedany.cinenear.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.cinenear.data.Movie
-import com.dedany.cinenear.data.MoviesRepository
+import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 
 class HomeViewModel(

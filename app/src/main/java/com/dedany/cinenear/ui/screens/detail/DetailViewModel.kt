@@ -2,18 +2,13 @@ package com.dedany.cinenear.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.cinenear.data.Movie
-import com.dedany.cinenear.data.MoviesRepository
-import com.dedany.cinenear.usecases.FetchMoviesUseCase
+import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
 import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 sealed interface DetailAction {

@@ -35,9 +35,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
-import com.dedany.cinenear.data.Movie
+import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.ui.common.PermissionRequestEffect
-import com.dedany.cinenear.ui.theme.CinenearTheme
 import com.dedany.cinenear.ui.theme.Screen
 
 

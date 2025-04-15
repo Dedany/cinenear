@@ -1,6 +1,6 @@
 package com.dedany.cinenear.usecases
 
-import com.dedany.cinenear.data.Movie
+import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.data.MoviesRepository
 
 class ToggleFavoriteUseCase(
