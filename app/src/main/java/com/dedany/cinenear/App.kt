@@ -2,7 +2,7 @@ package com.dedany.cinenear
 
 import android.app.Application
 import androidx.room.Room
-import com.dedany.cinenear.data.datasource.database.MoviesDataBase
+import com.dedany.cinenear.framework.database.MoviesDataBase
 
 
 class App: Application() {

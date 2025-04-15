@@ -1,10 +1,9 @@
-package com.dedany.cinenear.data.datasource.database
+package com.dedany.cinenear.framework.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dedany.cinenear.domain.Movie
 import kotlinx.coroutines.flow.Flow
 
 

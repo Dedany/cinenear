@@ -1,4 +1,4 @@
-package com.dedany.cinenear.data.datasource.remote
+package com.dedany.cinenear.framework.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Path

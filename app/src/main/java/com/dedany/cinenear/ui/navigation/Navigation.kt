@@ -1,30 +1,25 @@
 package com.dedany.cinenear.ui.navigation
 
-import android.app.Application
 import android.location.Geocoder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.dedany.cinenear.ui.screens.detail.DetailScreen
-import com.dedany.cinenear.ui.screens.home.HomeScreen
-import androidx.navigation.compose.NavHost
 import com.dedany.cinenear.App
 import com.dedany.cinenear.data.MoviesRepository
 import com.dedany.cinenear.data.RegionRepository
-import com.dedany.cinenear.data.datasource.LocationDataSource
 import com.dedany.cinenear.data.datasource.LocationDataSourceimpl
-import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
-import com.dedany.cinenear.data.datasource.MoviesRemoteDataSourceImpl
-import com.dedany.cinenear.data.datasource.RegionDataSource
-import com.dedany.cinenear.data.datasource.RegionDataSourceImpl
-import com.dedany.cinenear.data.datasource.remote.MoviesClient
-import com.dedany.cinenear.data.datasource.remote.MoviesLocalDataSource
-import com.dedany.cinenear.data.datasource.remote.MoviesLocalDataSourceImpl
+import com.dedany.cinenear.framework.RegionDataSourceImpl
+import com.dedany.cinenear.framework.database.MoviesLocalDataSourceImpl
+import com.dedany.cinenear.framework.remote.MoviesClient
+import com.dedany.cinenear.framework.remote.MoviesRemoteDataSourceImpl
+import com.dedany.cinenear.ui.screens.detail.DetailScreen
 import com.dedany.cinenear.ui.screens.detail.DetailViewModel
+import com.dedany.cinenear.ui.screens.home.HomeScreen
 import com.dedany.cinenear.ui.screens.home.HomeViewModel
 import com.dedany.cinenear.usecases.FetchMoviesUseCase
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
@@ -40,10 +35,10 @@ fun Navigation() {
             RegionDataSourceImpl(
                 Geocoder(app),
                 LocationDataSourceimpl(
-                    LocationServices.getFusedLocationProviderClient(app))
+                    LocationServices.getFusedLocationProviderClient(app)
+                )
             )
-        )
-            ,
+        ),
         MoviesLocalDataSourceImpl(app.db.moviesDao()),
         MoviesRemoteDataSourceImpl(MoviesClient.instance)
     )

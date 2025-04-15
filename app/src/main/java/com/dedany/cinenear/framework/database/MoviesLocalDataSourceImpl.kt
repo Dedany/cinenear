@@ -1,17 +1,9 @@
-package com.dedany.cinenear.data.datasource.remote
+package com.dedany.cinenear.framework.database
 
-import com.dedany.cinenear.data.datasource.database.DbMovie
+import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
 import com.dedany.cinenear.domain.Movie
-import com.dedany.cinenear.data.datasource.database.MoviesDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-
-interface MoviesLocalDataSource {
-    val movies: Flow<List<Movie>>
-    fun findMovieById(id: Int): Flow<Movie?>
-
-    suspend fun save(movies: List<Movie>)
-}
 
 class MoviesLocalDataSourceImpl(private val moviesDao: MoviesDao) : MoviesLocalDataSource {
 
@@ -21,7 +13,8 @@ class MoviesLocalDataSourceImpl(private val moviesDao: MoviesDao) : MoviesLocalD
     override fun findMovieById(id: Int): Flow<Movie?> =
         moviesDao.findMovieById(id).map { it?.toDomainMovie() }
 
-    override suspend fun save(movies: List<Movie>) = moviesDao.saveMovies(movies.map { it.toDbMovie() })
+    override suspend fun save(movies: List<Movie>) =
+        moviesDao.saveMovies(movies.map { it.toDbMovie() })
 }
 
 private fun DbMovie.toDomainMovie(): Movie = Movie(
