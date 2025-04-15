@@ -1,19 +1,20 @@
 package com.dedany.cinenear.data.datasource
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
-
-import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class LocationDataSource(app: Application) {
+interface LocationDataSource {
+    suspend fun findLastLocation(): Location?
+}
 
-    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(app)
+class LocationDataSourceimpl(
+    private val fusedLocationClient: FusedLocationProviderClient
+) : LocationDataSource {
 
-    suspend fun findLastLocation(): Location? = fusedLocationClient.lastLocation()
+        override suspend fun findLastLocation(): Location? = fusedLocationClient.lastLocation()
 }
 
 @SuppressLint("MissingPermission")

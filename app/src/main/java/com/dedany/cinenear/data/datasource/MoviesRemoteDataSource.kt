@@ -2,21 +2,26 @@ package com.dedany.cinenear.data.datasource
 
 import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.data.datasource.remote.MoviesClient
+import com.dedany.cinenear.data.datasource.remote.MoviesService
 import com.dedany.cinenear.data.datasource.remote.RemoteMovie
 
-class MoviesRemoteDataSource {
+interface MoviesRemoteDataSource {
+    suspend fun fetchPopularMovies(region: String): List<Movie>
 
-    suspend fun fetchPopularMovies(region: String): List<Movie> =
-        MoviesClient
-            .instance
-            .fetchPopularMovies(region)
+    suspend fun findMovieById(id: Int): Movie
+}
+
+class MoviesRemoteDataSourceImpl(
+    private val moviesService: MoviesService
+) : MoviesRemoteDataSource {
+
+    override suspend fun fetchPopularMovies(region: String): List<Movie> =
+        moviesService.fetchPopularMovies(region)
             .results
             .map { it.toDomainModel() }
 
-    suspend fun findMovieById(id: Int): Movie =
-        MoviesClient
-            .instance
-            .fetchMovieById(id)
+    override suspend fun findMovieById(id: Int): Movie =
+        moviesService.fetchMovieById(id)
             .toDomainModel()
 }
 
