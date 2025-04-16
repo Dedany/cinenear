@@ -1,22 +1,23 @@
 package com.dedany.cinenear.framework
 
 import android.location.Geocoder
-import android.location.Location
+import com.dedany.cinenear.ui.common.getFromLocationCompat
 import com.dedany.cinenear.data.datasource.DEFAULT_REGION
 import com.dedany.cinenear.data.datasource.LocationDataSource
 import com.dedany.cinenear.data.datasource.RegionDataSource
-import com.dedany.cinenear.ui.common.getFromLocationCompat
+import com.dedany.cinenear.domain.Location
+
+
 
 class RegionDataSourceImpl(
     private val geocoder: Geocoder,
     private val locationDataSource: LocationDataSource
-) :
-    RegionDataSource {
+) : RegionDataSource {
 
     override suspend fun findLastRegion(): String =
         locationDataSource.findLastLocation()?.toRegion() ?: DEFAULT_REGION
 
-    override suspend fun Location.toRegion(): String {
+    private suspend fun Location.toRegion(): String {
         val addresses = geocoder.getFromLocationCompat(latitude, longitude, 1)
         val region = addresses.firstOrNull()?.countryCode
         return region ?: DEFAULT_REGION
