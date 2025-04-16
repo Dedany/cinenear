@@ -12,11 +12,11 @@ import androidx.navigation.navArgument
 import com.dedany.cinenear.App
 import com.dedany.cinenear.data.MoviesRepository
 import com.dedany.cinenear.data.RegionRepository
-import com.dedany.cinenear.data.datasource.LocationDataSourceimpl
 import com.dedany.cinenear.framework.RegionDataSourceImpl
-import com.dedany.cinenear.framework.database.MoviesLocalDataSourceImpl
+import com.dedany.cinenear.framework.MoviesLocalDataSourceImpl
 import com.dedany.cinenear.framework.remote.MoviesClient
-import com.dedany.cinenear.framework.remote.MoviesRemoteDataSourceImpl
+import com.dedany.cinenear.framework.MoviesRemoteDataSourceImpl
+import com.dedany.cinenear.framework.LocationDataSourceimpl
 import com.dedany.cinenear.ui.screens.detail.DetailScreen
 import com.dedany.cinenear.ui.screens.detail.DetailViewModel
 import com.dedany.cinenear.ui.screens.home.HomeScreen
