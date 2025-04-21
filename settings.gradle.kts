@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Cinenear"
 include(":app")
 include(":domain")
+include(":data")
+include(":usecases")
