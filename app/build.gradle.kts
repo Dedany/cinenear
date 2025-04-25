@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.ksp)
-    id("com.google.dagger.hilt.android") version "2.53"
+    alias(libs.plugins.hilt)
 }
 
 android {

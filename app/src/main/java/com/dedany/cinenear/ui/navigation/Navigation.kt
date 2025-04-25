@@ -16,7 +16,7 @@ import com.dedany.cinenear.framework.RegionDataSourceImpl
 import com.dedany.cinenear.framework.MoviesLocalDataSourceImpl
 import com.dedany.cinenear.framework.remote.MoviesClient
 import com.dedany.cinenear.framework.MoviesRemoteDataSourceImpl
-import com.dedany.cinenear.framework.LocationDataSourceimpl
+import com.dedany.cinenear.framework.LocationDataSourceImpl
 import com.dedany.cinenear.ui.screens.detail.DetailScreen
 import com.dedany.cinenear.ui.screens.detail.DetailViewModel
 import com.dedany.cinenear.ui.screens.home.HomeScreen
@@ -34,7 +34,7 @@ fun Navigation() {
         RegionRepository(
             RegionDataSourceImpl(
                 Geocoder(app),
-                LocationDataSourceimpl(
+                LocationDataSourceImpl(
                     LocationServices.getFusedLocationProviderClient(app)
                 )
             )

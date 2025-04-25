@@ -9,7 +9,7 @@ import kotlin.coroutines.resume
 import android.location.Location as AndroidLocation
 
 
-class LocationDataSourceimpl(
+class LocationDataSourceImpl(
     private val fusedLocationClient: FusedLocationProviderClient
 ) : LocationDataSource {
 

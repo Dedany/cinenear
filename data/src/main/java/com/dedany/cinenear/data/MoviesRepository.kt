@@ -5,8 +5,10 @@ import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
 import com.dedany.cinenear.domain.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class MoviesRepository(
+
+class MoviesRepository @Inject constructor(
     private val regionRepository: RegionRepository,
     private val localDataSource: MoviesLocalDataSource,
     private val remoteDataSource: MoviesRemoteDataSource

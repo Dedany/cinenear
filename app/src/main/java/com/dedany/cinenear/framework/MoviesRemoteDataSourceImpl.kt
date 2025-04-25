@@ -4,8 +4,9 @@ import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.framework.remote.MoviesService
 import com.dedany.cinenear.framework.remote.RemoteMovie
+import javax.inject.Inject
 
-class MoviesRemoteDataSourceImpl(
+class MoviesRemoteDataSourceImpl @Inject constructor(
     private val moviesService: MoviesService
 ) : MoviesRemoteDataSource {
 
