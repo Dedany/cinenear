@@ -3,8 +3,9 @@ package com.dedany.cinenear.usecases
 import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.data.MoviesRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class FindMovieByIdUseCase(
+class FindMovieByIdUseCase @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) {
     operator fun invoke(id: Int): Flow<Movie?> = moviesRepository.findMovieById(id)

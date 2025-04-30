@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.domain.Movie
@@ -44,7 +45,7 @@ import com.dedany.cinenear.ui.theme.Screen
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
-    vm: HomeViewModel
+    vm: HomeViewModel = hiltViewModel()
 ) {
     val homeState = rememberHomeState()
     PermissionRequestEffect (permission = Manifest.permission.ACCESS_COARSE_LOCATION) {

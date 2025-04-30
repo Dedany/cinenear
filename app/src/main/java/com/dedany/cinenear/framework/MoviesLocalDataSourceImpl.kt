@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class MoviesLocalDataSourceImpl @Inject constructor(private val moviesDao: MoviesDao) : MoviesLocalDataSource {
+class MoviesLocalDataSourceImpl @Inject constructor(
+    private val moviesDao: MoviesDao
+) : MoviesLocalDataSource {
 
     override val movies: Flow<List<Movie>> =
         moviesDao.fetchPopularMovies().map { movies -> movies.map { it.toDomainMovie() } }

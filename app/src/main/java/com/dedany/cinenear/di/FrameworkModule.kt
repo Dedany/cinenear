@@ -1,5 +1,5 @@
 package com.dedany.cinenear.di
-/*
+
 import android.app.Application
 import androidx.room.Room
 import com.dedany.cinenear.framework.database.MoviesDataBase
@@ -21,7 +21,8 @@ internal object FrameworkModule {
     fun provideDatabase(app: Application) = Room.databaseBuilder(
         app,
         MoviesDataBase::class.java,
-        "movies-db")
+        "movies-db"
+    )
         .build()
 
     @Provides
@@ -29,5 +30,8 @@ internal object FrameworkModule {
 
     @Provides
     @Singleton
-    fun provideMoviesService (@Named("apiKey") apiKey: String) : MoviesService = MoviesClient(apiKey).instance
-}  */
+    fun provideMoviesService(
+        @Named("apiKey") apiKey: String,
+        @Named("apiUrl") apiUrl: String
+    ): MoviesService = MoviesClient(apiKey, apiUrl).instance
+}

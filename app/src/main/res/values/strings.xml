@@ -2,5 +2,6 @@
     <string name="app_name">cinenear</string>
     <string name="back">"Go Back "</string>
     <string name="favorite">Mark as Favorite</string>
+    <string name="error">Error</string>
 
 </resources>

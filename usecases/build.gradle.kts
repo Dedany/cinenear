@@ -15,8 +15,9 @@ kotlin {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core.v160)
-    implementation(libs.hilt.android.v2531)
-    ksp(libs.hilt.compiler)
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(libs.hilt.core)
 
 
     }

@@ -3,6 +3,7 @@ package com.dedany.cinenear.ui.navigation
 import android.location.Geocoder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -30,25 +31,14 @@ import com.google.android.gms.location.LocationServices
 fun Navigation() {
     val navController = rememberNavController()
     val app = LocalContext.current.applicationContext as App
-    val moviesRepository = MoviesRepository(
-        RegionRepository(
-            RegionDataSourceImpl(
-                Geocoder(app),
-                LocationDataSourceImpl(
-                    LocationServices.getFusedLocationProviderClient(app)
-                )
-            )
-        ),
-        MoviesLocalDataSourceImpl(app.db.moviesDao()),
-        MoviesRemoteDataSourceImpl(MoviesClient.instance)
-    )
+
+
     NavHost(navController = navController, startDestination = NavScreen.Home.route) {
         composable(NavScreen.Home.route) {
             HomeScreen(
                 onMovieClick = { movie ->
                     navController.navigate(NavScreen.Detail.createRoute(movie.id))
                 },
-                viewModel { HomeViewModel(FetchMoviesUseCase(moviesRepository)) }
             )
         }
         composable(
@@ -57,13 +47,6 @@ fun Navigation() {
         ) { backStackEntry ->
             val movieId = requireNotNull(backStackEntry.arguments?.getInt(NavArgs.MovieId.key))
             DetailScreen(
-                viewModel {
-                    DetailViewModel(
-                        movieId,
-                        FindMovieByIdUseCase(moviesRepository),
-                        ToggleFavoriteUseCase(moviesRepository)
-                    )
-                },
                 onBack = { navController.popBackStack() })
         }
     }

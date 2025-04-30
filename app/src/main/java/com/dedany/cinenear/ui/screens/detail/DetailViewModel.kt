@@ -5,19 +5,21 @@ import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.domain.Movie
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
 import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed interface DetailAction {
     data object FavoriteClick : DetailAction
     data object MessageShown : DetailAction
 }
 
-
-class DetailViewModel(
+@HiltViewModel
+class DetailViewModel @Inject constructor(
     id: Int,
     findMovieByIdUseCase: FindMovieByIdUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
