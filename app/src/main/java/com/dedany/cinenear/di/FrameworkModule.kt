@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.dedany.cinenear.framework.database.MoviesDataBase
 import com.dedany.cinenear.framework.remote.MoviesClient
 import com.dedany.cinenear.framework.remote.MoviesService
+import com.dedany.cinenear.App
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,4 +39,10 @@ internal object FrameworkModule {
         @Named("apiKey") apiKey: String,
         @Named("apiUrl") apiUrl: String
     ): MoviesService = MoviesClient(apiKey, apiUrl).instance
+
+    @Provides
+    @Singleton
+    fun provideApp(application: Application): App {
+        return application as App
+    }
 }
