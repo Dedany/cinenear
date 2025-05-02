@@ -1,31 +1,15 @@
 package com.dedany.cinenear.ui.navigation
 
-import android.location.Geocoder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dedany.cinenear.App
-import com.dedany.cinenear.data.MoviesRepository
-import com.dedany.cinenear.data.RegionRepository
-import com.dedany.cinenear.framework.RegionDataSourceImpl
-import com.dedany.cinenear.framework.MoviesLocalDataSourceImpl
-import com.dedany.cinenear.framework.remote.MoviesClient
-import com.dedany.cinenear.framework.MoviesRemoteDataSourceImpl
-import com.dedany.cinenear.framework.LocationDataSourceImpl
 import com.dedany.cinenear.ui.screens.detail.DetailScreen
-import com.dedany.cinenear.ui.screens.detail.DetailViewModel
 import com.dedany.cinenear.ui.screens.home.HomeScreen
-import com.dedany.cinenear.ui.screens.home.HomeViewModel
-import com.dedany.cinenear.usecases.FetchMoviesUseCase
-import com.dedany.cinenear.usecases.FindMovieByIdUseCase
-import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
-import com.google.android.gms.location.LocationServices
 
 @Composable
 fun Navigation() {

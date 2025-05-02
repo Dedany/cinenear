@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FindMovieByIdUseCase @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val repository: MoviesRepository
 ) {
-    operator fun invoke(id: Int): Flow<Movie?> = moviesRepository.findMovieById(id)
+    operator fun invoke(id: Int): Flow<Movie> = repository.findMovieById(id)
 }

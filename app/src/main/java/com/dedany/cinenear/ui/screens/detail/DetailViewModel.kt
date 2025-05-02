@@ -2,14 +2,15 @@ package com.dedany.cinenear.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dedany.cinenear.ui.common.Result
+import com.dedany.cinenear.di.MovieId
 import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.ui.common.ifSuccess
+import com.dedany.cinenear.ui.common.stateAsResultIn
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
 import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,30 +21,20 @@ sealed interface DetailAction {
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    id: Int,
+    @MovieId id: Int,
     findMovieByIdUseCase: FindMovieByIdUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
 ) : ViewModel() {
 
-   val state : StateFlow<UiState> = findMovieByIdUseCase(id)
-       .map { UiState(movie = it) }
-       .stateIn(
-           scope = viewModelScope,
-           started = SharingStarted.WhileSubscribed(5000),
-           initialValue = UiState(loading = true)
-       )
-
-    data class UiState(
-        val loading: Boolean = false,
-        val movie: Movie? = null
-    )
-
+    val state: StateFlow<Result<Movie>> =
+        findMovieByIdUseCase(id).stateAsResultIn(scope = viewModelScope)
 
     fun onFavoriteClicked() {
-        state.value.movie?.let {
+        state.value.ifSuccess {
             viewModelScope.launch {
                 toggleFavoriteUseCase(it)
             }
+
         }
     }
 }

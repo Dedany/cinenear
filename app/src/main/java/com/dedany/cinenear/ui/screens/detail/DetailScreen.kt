@@ -16,7 +16,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -41,31 +40,33 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.domain.Movie
-import com.dedany.cinenear.ui.common.LoadingProgressIndicator
+import com.dedany.cinenear.ui.common.AcScaffold
 import com.dedany.cinenear.ui.theme.Screen
+import com.dedany.cinenear.ui.common.Result
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
 
-    val detailState = rememberDetailState()
     val state by vm.state.collectAsState()
+    val detailState = rememberDetailState(state)
 
     Screen {
-        Scaffold(
+        AcScaffold(
+            state = state,
             topBar = {
                 DetailTopBar(
-                    title = state.movie?.title ?: "",
+                    title = detailState.topBarTitle ?: "",
                     scrollBehavior = detailState.scrollBehavior,
                     onBack = onBack
                 )
             },
             floatingActionButton = {
-                val favorite = state.movie?.favorite ?: false
                 FloatingActionButton(onClick = { vm.onFavoriteClicked() }) {
+                    val favorite = detailState.movie?.favorite ?: false
                     Icon(
-                        imageVector =if(favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.back),
                         tint = if (favorite) Color.Red else Color.Blue
                     )
@@ -73,20 +74,15 @@ fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
             },
             snackbarHost = { SnackbarHost(hostState = detailState.snackbarHostState) },
             modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
-        ) { padding ->
-
-            if (state.loading) {
-                LoadingProgressIndicator(modifier = Modifier.padding(padding))
-            }
-
-            state.movie?.let { movie ->
-                MovieDetail(
-                    movie, modifier = Modifier.padding(padding)
-                )
-            }
+        ) { padding, movie ->
+            MovieDetail(
+                movie = movie,
+                modifier = Modifier.padding(padding)
+            )
         }
     }
 }
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,7 +102,8 @@ private fun DetailTopBar(
 
 @Composable
 private fun MovieDetail(
-    movie: Movie, modifier: Modifier = Modifier
+    movie: Movie,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
