@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.ui.common.PermissionRequestEffect
 import com.dedany.cinenear.ui.theme.Screen
 
@@ -109,7 +109,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                         .clip(MaterialTheme.shapes.large)
 
                 )
-                if (movie.favorite) {
+                if (movie.isFavorite) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = stringResource(id = R.string.favorite),

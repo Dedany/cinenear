@@ -1,7 +1,7 @@
 package com.dedany.cinenear.framework
 
 import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.framework.database.DbMovie
 import com.dedany.cinenear.framework.database.MoviesDao
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +33,7 @@ private fun DbMovie.toDomainMovie(): Movie = Movie(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
-    favorite = false
+    isFavorite = false
 
 )
 

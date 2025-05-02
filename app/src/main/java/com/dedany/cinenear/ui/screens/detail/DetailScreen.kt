@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.ui.common.AcScaffold
 import com.dedany.cinenear.ui.theme.Screen
 import com.dedany.cinenear.ui.common.Result
@@ -48,8 +48,22 @@ import com.dedany.cinenear.ui.common.Result
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
-
     val state by vm.state.collectAsState()
+
+    DetailScreen(
+        state = state,
+        onBack = onBack,
+        onFavoriteClicked = vm::onFavoriteClicked
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailScreen(
+    state: Result<Movie>,
+    onBack: () -> Unit,
+    onFavoriteClicked: () -> Unit
+) {
     val detailState = rememberDetailState(state)
 
     Screen {
@@ -63,8 +77,8 @@ fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { vm.onFavoriteClicked() }) {
-                    val favorite = detailState.movie?.favorite ?: false
+                FloatingActionButton(onClick = onFavoriteClicked) {
+                    val favorite = detailState.movie?.isFavorite ?: false
                     Icon(
                         imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.back),

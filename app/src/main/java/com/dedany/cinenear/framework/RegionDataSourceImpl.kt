@@ -5,7 +5,7 @@ import com.dedany.cinenear.ui.common.getFromLocationCompat
 import com.dedany.cinenear.data.datasource.DEFAULT_REGION
 import com.dedany.cinenear.data.datasource.LocationDataSource
 import com.dedany.cinenear.data.datasource.RegionDataSource
-import com.dedany.cinenear.domain.Location
+import com.dedany.cinenear.domain.entities.Location
 import javax.inject.Inject
 
 

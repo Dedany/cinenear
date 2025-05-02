@@ -1,13 +1,13 @@
 package com.dedany.cinenear.usecases
 
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.data.MoviesRepository
 import javax.inject.Inject
 
 class ToggleFavoriteUseCase @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val repository: MoviesRepository
 ) {
-    operator suspend fun invoke(movie: Movie) {
-        moviesRepository.toggleFavorite(movie)
+    suspend operator fun invoke(movie: Movie) {
+        repository.toggleFavorite(movie)
     }
 }

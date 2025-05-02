@@ -2,7 +2,7 @@ package com.dedany.cinenear.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.usecases.FetchMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

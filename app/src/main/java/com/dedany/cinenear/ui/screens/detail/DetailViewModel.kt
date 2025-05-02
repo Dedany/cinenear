@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.cinenear.ui.common.Result
 import com.dedany.cinenear.di.MovieId
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.ui.common.ifSuccess
 import com.dedany.cinenear.ui.common.stateAsResultIn
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
@@ -13,11 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-sealed interface DetailAction {
-    data object FavoriteClick : DetailAction
-    data object MessageShown : DetailAction
-}
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(

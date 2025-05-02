@@ -1,7 +1,7 @@
 package com.dedany.cinenear.framework
 
 import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.framework.remote.MoviesService
 import com.dedany.cinenear.framework.remote.RemoteMovie
 import javax.inject.Inject
@@ -33,5 +33,5 @@ private fun RemoteMovie.toDomainModel(): Movie =
         originalLanguage = originalLanguage,
         popularity = String.format("%.1f", popularity.toFloat()),
         voteAverage = String.format("%.1f", voteAverage.toFloat()),
-        favorite = false
+        isFavorite = false
     )

@@ -1,4 +1,4 @@
-package com.dedany.cinenear.domain
+package com.dedany.cinenear.domain.entities
 
 data class Movie(
     val id: Int,
@@ -11,6 +11,6 @@ data class Movie(
     val originalLanguage: String,
     val popularity: String,
     val voteAverage: String,
-    val favorite: Boolean
+    val isFavorite: Boolean
 )
 

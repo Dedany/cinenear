@@ -6,7 +6,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.ui.common.Result
 
 
@@ -26,7 +26,7 @@ class DetailState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberDetailState(
-    state: Result<Movie> ,
+    state: Result<Movie>,
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 )= remember(state) { DetailState(state, scrollBehavior,snackbarHostState) }

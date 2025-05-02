@@ -17,6 +17,23 @@ import javax.inject.Singleton
 internal object FrameworkModule {
 
 
+    @Provides
+    fun providesMoviesDao(db: MoviesDataBase) = db.moviesDao()
+
+    //Hilt proporciona las películas
+    @Provides
+    @Singleton
+    fun provideMoviesService(
+        @Named("apiKey") apiKey: String,
+        @Named("apiUrl") apiUrl: String
+    ): MoviesService = MoviesClient(apiKey, apiUrl).instance
+}
+
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    object FrameworkExtrasModule {
+
 //Hilt proporciona la base de datos
     @Provides
     @Singleton
@@ -27,15 +44,10 @@ internal object FrameworkModule {
     )
         .build()
 
-    @Provides
-    fun providesMoviesDao(db: MoviesDataBase) = db.moviesDao()
 
-
-    //Hilt proporciona las películas
     @Provides
     @Singleton
-    fun provideMoviesService(
-        @Named("apiKey") apiKey: String,
-        @Named("apiUrl") apiUrl: String
-    ): MoviesService = MoviesClient(apiKey, apiUrl).instance
+    @Named("apiUrl")
+    fun provideApiUrl(): String = "https://api.themoviedb.org/3/"
+
 }

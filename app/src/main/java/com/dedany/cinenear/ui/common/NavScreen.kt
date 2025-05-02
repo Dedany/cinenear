@@ -1,4 +1,4 @@
-package com.dedany.cinenear.ui.navigation
+package com.dedany.cinenear.ui.common
 
 
 sealed class NavScreen(val route: String) {

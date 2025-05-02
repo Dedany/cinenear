@@ -2,7 +2,7 @@ package com.dedany.cinenear.framework
 
 import android.annotation.SuppressLint
 import com.dedany.cinenear.data.datasource.LocationDataSource
-import com.dedany.cinenear.domain.Location
+import com.dedany.cinenear.domain.entities.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject

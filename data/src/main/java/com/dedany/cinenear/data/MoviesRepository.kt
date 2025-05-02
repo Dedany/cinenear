@@ -2,7 +2,7 @@ package com.dedany.cinenear.data
 
 import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
-import com.dedany.cinenear.domain.Movie
+import com.dedany.cinenear.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
@@ -15,10 +15,10 @@ class MoviesRepository @Inject constructor(
     private val remoteDataSource: MoviesRemoteDataSource
 ) {
 
-    val movies: Flow<List<Movie>> = localDataSource.movies.onEach { localMovies ->
+    val movies: Flow<List<Movie>>
+        get() = localDataSource.movies.onEach { localMovies ->
         if (localMovies.isEmpty()) {
-            val region = regionRepository.findLastRegion()
-            val remoteMovies = remoteDataSource.fetchPopularMovies(region)
+            val remoteMovies = remoteDataSource.fetchPopularMovies(regionRepository.findLastRegion())
             localDataSource.save(remoteMovies)
         }
     }
@@ -33,7 +33,7 @@ class MoviesRepository @Inject constructor(
         .filterNotNull()
 
     suspend fun toggleFavorite(movie: Movie) {
-        localDataSource.save(listOf(movie.copy(favorite = !movie.favorite)))
+        localDataSource.save(listOf(movie.copy(isFavorite = !movie.isFavorite)))
     }
 }
 
