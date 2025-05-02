@@ -6,10 +6,10 @@ import com.dedany.cinenear.data.datasource.DEFAULT_REGION
 import com.dedany.cinenear.data.datasource.LocationDataSource
 import com.dedany.cinenear.data.datasource.RegionDataSource
 import com.dedany.cinenear.domain.Location
+import javax.inject.Inject
 
 
-
-class RegionDataSourceImpl(
+class RegionDataSourceImpl @Inject constructor(
     private val geocoder: Geocoder,
     private val locationDataSource: LocationDataSource
 ) : RegionDataSource {

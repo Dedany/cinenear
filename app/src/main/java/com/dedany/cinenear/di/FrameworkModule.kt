@@ -16,6 +16,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object FrameworkModule {
 
+
+//Hilt proporciona la base de datos
     @Provides
     @Singleton
     fun provideDatabase(app: Application) = Room.databaseBuilder(
@@ -28,6 +30,8 @@ internal object FrameworkModule {
     @Provides
     fun providesMoviesDao(db: MoviesDataBase) = db.moviesDao()
 
+
+    //Hilt proporciona las películas
     @Provides
     @Singleton
     fun provideMoviesService(

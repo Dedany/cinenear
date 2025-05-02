@@ -5,11 +5,12 @@ import com.dedany.cinenear.data.datasource.LocationDataSource
 import com.dedany.cinenear.domain.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import android.location.Location as AndroidLocation
 
 
-class LocationDataSourceImpl(
+class LocationDataSourceImpl @Inject constructor(
     private val fusedLocationClient: FusedLocationProviderClient
 ) : LocationDataSource {
 
