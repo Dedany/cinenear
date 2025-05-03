@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.dedany.cinenear.framework.database.MoviesDataBase
 import com.dedany.cinenear.framework.remote.MoviesClient
 import com.dedany.cinenear.framework.remote.MoviesService
+import com.dedany.cinenear.App
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,24 +18,7 @@ import javax.inject.Singleton
 internal object FrameworkModule {
 
 
-    @Provides
-    fun providesMoviesDao(db: MoviesDataBase) = db.moviesDao()
-
-    //Hilt proporciona las películas
-    @Provides
-    @Singleton
-    fun provideMoviesService(
-        @Named("apiKey") apiKey: String,
-        @Named("apiUrl") apiUrl: String
-    ): MoviesService = MoviesClient(apiKey, apiUrl).instance
-}
-
-
-    @Module
-    @InstallIn(SingletonComponent::class)
-    object FrameworkExtrasModule {
-
-//Hilt proporciona la base de datos
+    //Hilt proporciona la base de datos
     @Provides
     @Singleton
     fun provideDatabase(app: Application) = Room.databaseBuilder(
@@ -44,10 +28,21 @@ internal object FrameworkModule {
     )
         .build()
 
+    @Provides
+    fun providesMoviesDao(db: MoviesDataBase) = db.moviesDao()
+
+
+    //Hilt proporciona las películas
+    @Provides
+    @Singleton
+    fun provideMoviesService(
+        @Named("apiKey") apiKey: String,
+        @Named("apiUrl") apiUrl: String
+    ): MoviesService = MoviesClient(apiKey, apiUrl).instance
 
     @Provides
     @Singleton
-    @Named("apiUrl")
-    fun provideApiUrl(): String = "https://api.themoviedb.org/3/"
-
+    fun provideApp(application: Application): App {
+        return application as App
+    }
 }

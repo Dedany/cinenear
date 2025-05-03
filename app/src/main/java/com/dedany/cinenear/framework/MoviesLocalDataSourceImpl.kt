@@ -33,7 +33,7 @@ private fun DbMovie.toDomainMovie(): Movie = Movie(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
-    isFavorite = false
+    isFavorite = favorite
 
 )
 
@@ -48,5 +48,5 @@ private fun Movie.toDbMovie() = DbMovie(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
-    favorite = false
+    favorite = isFavorite
 )
