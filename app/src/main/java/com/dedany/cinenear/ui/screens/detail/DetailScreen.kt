@@ -68,13 +68,6 @@ fun DetailScreen(
 ) {
     val detailState = rememberDetailState(state)
 
-    val isFavorite = detailState.movie?.isFavorite
-    LaunchedEffect(isFavorite) {
-        isFavorite?.let {
-            val message = if (it) "Añadido a favoritos" else "Eliminado de favoritos"
-            detailState.snackbarHostState.showSnackbar(message)
-        }
-    }
 
     Screen {
         AcScaffold(
