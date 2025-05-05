@@ -20,5 +20,10 @@ dependencies {
     implementation(libs.hilt.core)
 
 
-    }
+    //test
+    testImplementation(libs.junit.junit)
+    testImplementation(libs.mockito.kotlin)
+
+
+}
 
