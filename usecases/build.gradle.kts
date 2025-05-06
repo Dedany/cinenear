@@ -17,6 +17,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core.v160)
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":test:unit"))
+
     implementation(libs.hilt.core)
 
 

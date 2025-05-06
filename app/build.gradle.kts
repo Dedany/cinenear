@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":usecases"))
     implementation(project(":data"))
     implementation(project(":domain"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -79,6 +80,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
+    testImplementation(project(":test:unit"))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -96,5 +98,8 @@ dependencies {
     //test
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 
 }
+

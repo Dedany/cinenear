@@ -23,6 +23,8 @@ hilt = "2.53.1"
 hiltNavigationCompose = "1.2.0"
 mockitoKotlin = "5.3.1"
 junitJunit = "4.12"
+turbine = "1.1.0"
+coroutines = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +45,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-core-v160 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "jetbrainsKotlinxCoroutinesCore" }
 kotlinx-coroutines-core-v173 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCoreVersion" }
+kotlinx-coroutines-test =  { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
@@ -60,6 +63,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 #mockito
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 
 

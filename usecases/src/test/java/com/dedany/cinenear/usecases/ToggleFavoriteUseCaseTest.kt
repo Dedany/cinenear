@@ -1,6 +1,7 @@
 package com.dedany.cinenear.usecases
 
 import com.dedany.cinenear.data.MoviesRepository
+import com.dedany.cinenear.sampleMovie
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.mockito.kotlin.mock

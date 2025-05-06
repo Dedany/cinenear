@@ -3,6 +3,8 @@ package com.dedany.cinenear.data
 import com.dedany.cinenear.data.datasource.DEFAULT_REGION
 import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
 import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
+import com.dedany.cinenear.sampleMovie
+import com.dedany.cinenear.sampleMovies
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
