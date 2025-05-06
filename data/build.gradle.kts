@@ -16,7 +16,7 @@ kotlin {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":test:unit"))
+    testImplementation(project(":test:unit"))
     
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.hilt.core)
