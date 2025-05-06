@@ -54,8 +54,6 @@ android {
         compose = true
         buildConfig = true
     }
-
-
 }
 
 dependencies {
@@ -79,6 +77,7 @@ dependencies {
     implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     testImplementation(project(":test:unit"))
     androidTestImplementation(libs.androidx.junit)
@@ -100,6 +99,5 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)
-
-}
-
+    implementation(libs.androidx.ui.test.junit4.android)
+    }

@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,19 +41,33 @@ import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.ui.common.PermissionRequestEffect
 import com.dedany.cinenear.ui.theme.Screen
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     vm: HomeViewModel = hiltViewModel()
 ) {
+    val state by vm.state.collectAsState()
+
+    PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) {
+        vm.onUiReady()
+    }
+
+    HomeScreen(
+        state = state,
+        onMovieClick = onMovieClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(
+    state: HomeViewModel.UiState,
+    onMovieClick: (Movie) -> Unit,
+
+) {
     val homeState = rememberHomeState()
-    PermissionRequestEffect (permission = Manifest.permission.ACCESS_COARSE_LOCATION) {
-         vm.onUiReady() }
 
     Screen {
-
 
         Scaffold(
             topBar = {
@@ -64,7 +79,7 @@ fun HomeScreen(
             modifier = Modifier.nestedScroll(homeState.scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
         ) { padding ->
-            val state by vm.state.collectAsState()
+
 
             if (state.loading) {
                 Box(
@@ -73,7 +88,7 @@ fun HomeScreen(
                         .padding(padding),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(Modifier.testTag("LOADING_INDICATOR"))
                 }
             }
 
@@ -99,26 +114,27 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
         modifier = Modifier.clickable(onClick = onClick)
     ) {
 
-            Box {
-                AsyncImage(
-                    model = movie.poster,
-                    contentDescription = movie.title,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(2 / 3f)
-                        .clip(MaterialTheme.shapes.large)
+        Box {
+            AsyncImage(
+                model = movie.poster,
+                contentDescription = movie.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(2 / 3f)
+                    .clip(MaterialTheme.shapes.large)
 
+            )
+            if (movie.isFavorite) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = stringResource(id = R.string.favorite),
+                    tint = Color.Red,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.TopEnd)
                 )
-                if (movie.isFavorite) {
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = stringResource(id = R.string.favorite),
-                        tint = Color.Red,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.TopEnd)
-                    )
-                }
+            }
         }
     }
+
 }
