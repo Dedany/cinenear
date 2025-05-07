@@ -107,6 +107,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.androidx.room.ktx)
 
 }
 
