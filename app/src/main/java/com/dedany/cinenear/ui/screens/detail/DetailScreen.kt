@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -21,13 +22,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
@@ -45,6 +46,8 @@ import com.dedany.cinenear.ui.common.AcScaffold
 import com.dedany.cinenear.ui.theme.Screen
 import com.dedany.cinenear.ui.common.Result
 
+
+const val LOADING_INDICATOR_TAG = "LOADING_INDICATOR"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,10 +67,8 @@ fun DetailScreen(
     state: Result<Movie>,
     onBack: () -> Unit,
     onFavoriteClicked: () -> Unit
-
 ) {
     val detailState = rememberDetailState(state)
-
 
     Screen {
         AcScaffold(
@@ -84,7 +85,7 @@ fun DetailScreen(
                     val favorite = detailState.movie?.isFavorite ?: false
                     Icon(
                         imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = stringResource(id = R.string.back),
+                        contentDescription = stringResource(id = R.string.favorite),
                         tint = if (favorite) Color.Red else Color.Blue
                     )
                 }
@@ -92,14 +93,22 @@ fun DetailScreen(
             snackbarHost = { SnackbarHost(hostState = detailState.snackbarHostState) },
             modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
         ) { padding, movie ->
-            MovieDetail(
-                movie = movie,
-                modifier = Modifier.padding(padding)
-            )
+            if (state is Result.Loading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .testTag(LOADING_INDICATOR_TAG)
+                )
+            } else {
+                MovieDetail(
+                    movie = movie,
+                    modifier = Modifier.padding(padding)
+                )
+            }
         }
     }
 }
-
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -113,8 +122,7 @@ private fun DetailTopBar(
                 contentDescription = stringResource(id = R.string.back)
             )
         }
-    }, scrollBehavior = scrollBehavior
-    )
+    }, scrollBehavior = scrollBehavior)
 }
 
 @Composable
@@ -165,5 +173,3 @@ private fun AnnotatedString.Builder.Property(name: String, value: String, end: B
         }
     }
 }
-
-
