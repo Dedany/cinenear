@@ -19,11 +19,12 @@ coroutines = "1.8.0"
 hilt = "2.53.1"
 hiltNavigationCompose = "1.2.0"
 mockitoKotlin = "5.3.1"
-core = "1.5.0"
-test = "1.6.1"
+core = "1.5.0"  #no se toca
+test = "1.5.0"  #no se toca
 turbine = "1.1.0"
 uiTestJunit4Android = "1.8.0"
 testing = "6.9.6"
+runner = "1.6.2"
 
 
 [libraries]
@@ -66,6 +67,8 @@ androidx-test-core = { group = "androidx.test", name = "core", version.ref = "te
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "test" }
 androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4Android" }
 testing = { group = "org.testng", name = "testng", version.ref = "testing" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
 
 
@@ -80,3 +83,4 @@ kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+

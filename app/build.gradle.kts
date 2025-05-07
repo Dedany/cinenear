@@ -78,6 +78,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.ui.test.junit4.android)
+    implementation(libs.androidx.runner)
+    implementation(libs.androidx.test.rules)
+    testImplementation(libs.hilt.android.testing)
     debugImplementation(libs.androidx.ui.tooling)
 
     ksp(libs.androidx.room.compiler)
@@ -100,5 +103,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.core.v150)
     debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
+
 }
 
