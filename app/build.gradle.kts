@@ -78,14 +78,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.ui.test.junit4.android)
-    testImplementation(libs.junit)
-    testImplementation(project(":test:unit"))
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+
     ksp(libs.androidx.room.compiler)
 
     //hilt
@@ -95,9 +89,16 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     //test
+    testImplementation(project(":test:unit"))
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.androidx.ui.test.junit4.android)
-    }
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.core.v150)
+    debugImplementation(libs.androidx.ui.test.manifest)
+}
+

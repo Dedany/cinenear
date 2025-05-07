@@ -14,7 +14,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.core.v160)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":test:unit"))
@@ -23,8 +23,8 @@ dependencies {
 
 
     //test
-    testImplementation(libs.junit.junit)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.testing)
 
 
 }

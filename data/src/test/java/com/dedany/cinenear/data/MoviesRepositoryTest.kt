@@ -5,7 +5,6 @@ import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
 import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.sampleMovie
 import com.dedany.cinenear.sampleMovies
-import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -17,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import org.testng.Assert.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)
 class MoviesRepositoryTest{
@@ -84,3 +84,4 @@ class MoviesRepositoryTest{
 
 
 }
+
