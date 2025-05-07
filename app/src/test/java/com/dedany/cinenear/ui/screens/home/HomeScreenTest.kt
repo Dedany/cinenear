@@ -5,7 +5,9 @@ package com.dedany.cinenear.ui.screens.home
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
 import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.sampleMovies
 import junit.framework.TestCase.assertEquals
@@ -20,15 +22,17 @@ class HomeScreenTest {
 
     @Test
     fun whenLoadingState_showProgressIndicator() {
+        val loadingState = HomeViewModel.UiState(loading = true)
         composeTestRule.setContent {
             HomeScreen(
-                state = HomeViewModel.UiState(loading = true),
+                state = loadingState,
                 onMovieClick = {}
             )
         }
 
         // Usa un testTag para encontrar el CircularProgressIndicator
-        composeTestRule.onNodeWithTag("LOADING_INDICATOR").assertExists()
+        //composeTestRule.onRoot().printToLog("HomeScreenTest")
+       composeTestRule.onNodeWithTag("LOADING_INDICATOR").assertExists()
     }
 
     @Test
