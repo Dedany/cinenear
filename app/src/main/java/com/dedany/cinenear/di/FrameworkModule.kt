@@ -18,19 +18,8 @@ import javax.inject.Singleton
 internal object FrameworkModule {
 
 
-    //Hilt proporciona la base de datos
-    @Provides
-    @Singleton
-    fun provideDatabase(app: Application) = Room.databaseBuilder(
-        app,
-        MoviesDataBase::class.java,
-        "movies-db"
-    )
-        .build()
-
     @Provides
     fun providesMoviesDao(db: MoviesDataBase) = db.moviesDao()
-
 
     //Hilt proporciona las películas
     @Provides
@@ -40,9 +29,29 @@ internal object FrameworkModule {
         @Named("apiUrl") apiUrl: String
     ): MoviesService = MoviesClient(apiKey, apiUrl).instance
 
-    @Provides
-    @Singleton
-    fun provideApp(application: Application): App {
-        return application as App
+
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    object FrameworkCoreExtrasModule {
+        //Hilt proporciona la base de datos
+        @Provides
+        @Singleton
+        fun provideDatabase(app: Application) = Room.databaseBuilder(
+            app,
+            MoviesDataBase::class.java,
+            "movies-db"
+        )
+            .build()
+
+        @Provides
+        @Singleton
+        @Named("apiUrl")
+        fun provideApiUrl(): String = "https://api.themoviedb.org/3/"
     }
-}
+        @Provides
+        @Singleton
+        fun provideApp(application: Application): App {
+            return application as App
+        }
+    }

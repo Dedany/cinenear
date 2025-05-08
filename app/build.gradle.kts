@@ -80,8 +80,6 @@ dependencies {
     implementation(libs.androidx.ui.test.junit4.android)
     implementation(libs.androidx.runner)
     implementation(libs.androidx.test.rules)
-    testImplementation(libs.hilt.android.testing)
-    androidTestImplementation(project(":test:unit"))
     debugImplementation(libs.androidx.ui.tooling)
 
     ksp(libs.androidx.room.compiler)
@@ -94,6 +92,8 @@ dependencies {
 
     //test
     testImplementation(project(":test:unit"))
+    androidTestImplementation(project(":test:unit"))
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.turbine)
@@ -109,6 +109,7 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
     androidTestImplementation(libs.androidx.room.ktx)
+    androidTestImplementation(libs.okhttp.mockwebserver)
 
 }
 

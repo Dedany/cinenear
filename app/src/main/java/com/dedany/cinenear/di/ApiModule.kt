@@ -18,8 +18,5 @@ object ApiModule {
     @Named("apiKey")
     fun provideApiKey(): String = BuildConfig.TMDB_API_KEY
 
-    @Provides
-    @Singleton
-    @Named("apiUrl")
-    fun provideApiUrl(): String = "https://api.themoviedb.org/3/"
+
 }
