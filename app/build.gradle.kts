@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.runner)
     implementation(libs.androidx.test.rules)
     testImplementation(libs.hilt.android.testing)
+    androidTestImplementation(project(":test:unit"))
     debugImplementation(libs.androidx.ui.tooling)
 
     ksp(libs.androidx.room.compiler)
