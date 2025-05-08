@@ -1,5 +1,7 @@
 package com.dedany.cinenear.di
 
+import android.app.Application
+import com.dedany.cinenear.App
 import com.dedany.cinenear.BuildConfig
 import dagger.Module
 import dagger.Provides

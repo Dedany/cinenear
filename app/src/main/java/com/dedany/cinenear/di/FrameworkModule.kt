@@ -29,7 +29,11 @@ internal object FrameworkModule {
         @Named("apiUrl") apiUrl: String
     ): MoviesService = MoviesClient(apiKey, apiUrl).instance
 
-
+    @Provides
+    @Singleton
+    fun provideApp(application: Application): App {
+        return application as App
+    }
 
     @Module
     @InstallIn(SingletonComponent::class)
@@ -49,9 +53,5 @@ internal object FrameworkModule {
         @Named("apiUrl")
         fun provideApiUrl(): String = "https://api.themoviedb.org/3/"
     }
-        @Provides
-        @Singleton
-        fun provideApp(application: Application): App {
-            return application as App
-        }
+
     }
