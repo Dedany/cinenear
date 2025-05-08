@@ -1,4 +1,4 @@
-package io.devexpert.architectcoders.ui.detail
+package com.dedany.cinenear.ui.screens.detail
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.createComposeRule
