@@ -12,4 +12,8 @@ interface MoviesService {
     @GET("movie/{id}")
     suspend fun fetchMovieById(@Path("id") id: Int): RemoteMovie
 
+    @GET("movie/{id}/watch/providers")
+    suspend fun fetchWatchProviders(@Path("id") id: Int): RemoteProvidersResponse
+
+
 }

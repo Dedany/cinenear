@@ -5,6 +5,8 @@ import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
 import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.data.datasource.RegionDataSource
 import com.dedany.cinenear.domain.entities.Movie
+import com.dedany.cinenear.domain.entities.Provider
+import com.dedany.cinenear.domain.entities.Providers
 import com.dedany.cinenear.sampleMovies
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +38,7 @@ class FakeLocalDataSource : MoviesLocalDataSource {
     }
 }
 
+
 class FakeRemoteDataSource : MoviesRemoteDataSource {
 
     var movies = sampleMovies(1, 2, 3, 4)
@@ -43,6 +46,15 @@ class FakeRemoteDataSource : MoviesRemoteDataSource {
     override suspend fun fetchPopularMovies(region: String) = movies
 
     override suspend fun findMovieById(id: Int): Movie = movies.first { it.id == id }
+
+    override suspend fun fetchWatchProviders(id: Int): Providers {
+        return Providers(
+            link = "https://fake.link/movie/$id",
+            buy = listOf(Provider(id = 1, name = "FakeBuy", logoPath = null)),
+            rent = listOf(Provider(id = 2, name = "FakeRent", logoPath = null)),
+            flatrate = listOf(Provider(id = 3, name = "FakeFlatrate", logoPath = null))
+        )
+    }
 }
 
 class FakeRegionDataSource : RegionDataSource {

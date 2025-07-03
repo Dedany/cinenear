@@ -42,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.domain.entities.Movie
+import com.dedany.cinenear.domain.entities.Providers
 import com.dedany.cinenear.ui.common.AcScaffold
 import com.dedany.cinenear.ui.theme.Screen
 import com.dedany.cinenear.ui.common.Result
@@ -53,9 +54,11 @@ const val LOADING_INDICATOR_TAG = "LOADING_INDICATOR"
 @Composable
 fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
     val state by vm.state.collectAsState()
+    val providersState by vm.providersState.collectAsState()
 
     DetailScreen(
         state = state,
+        providersState = providersState,
         onBack = onBack,
         onFavoriteClicked = vm::onFavoriteClicked
     )
@@ -65,10 +68,11 @@ fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
 @Composable
 fun DetailScreen(
     state: Result<Movie>,
+    providersState: Result<Providers>,
     onBack: () -> Unit,
     onFavoriteClicked: () -> Unit
 ) {
-    val detailState = rememberDetailState(state)
+    val detailState = rememberDetailState(state, providersState)
 
     Screen {
         AcScaffold(
@@ -103,6 +107,7 @@ fun DetailScreen(
             } else {
                 MovieDetail(
                     movie = movie,
+                    providers = detailState.providers,
                     modifier = Modifier.padding(padding)
                 )
             }
@@ -128,6 +133,7 @@ private fun DetailTopBar(
 @Composable
 private fun MovieDetail(
     movie: Movie,
+    providers: Providers?,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -158,6 +164,7 @@ private fun MovieDetail(
                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
                 .padding(16.dp)
         )
+        ProvidersSection(providers = providers)
     }
 }
 
@@ -173,3 +180,34 @@ private fun AnnotatedString.Builder.Property(name: String, value: String, end: B
         }
     }
 }
+
+@Composable
+private fun ProvidersSection(providers: Providers?, modifier: Modifier = Modifier) {
+    println("Providers recibidos: $providers")
+
+    when {
+        providers == null -> {
+            Text("Cargando proveedores...")
+        }
+
+        providers.flatrate.isEmpty() -> {
+            Text("No disponible en plataformas de suscripción.")
+        }
+
+        else -> {
+            Column(modifier = modifier.padding(16.dp)) {
+                Text(text = "Available on:", style = MaterialTheme.typography.titleMedium)
+                providers.flatrate.forEach { provider ->
+                    AsyncImage(
+                        model = "https://image.tmdb.org/t/p/w45${provider.logoPath}",
+                        contentDescription = provider.name,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                    Text(text = provider.name)
+                }
+            }
+        }
+    }
+}
+
+
