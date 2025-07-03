@@ -63,8 +63,8 @@ class MoviesRemoteDataSourceImpl @Inject constructor(
 
     private fun RemoteProvider.toProviderDomain(): Provider =
         Provider(
-            id = provider_id,
-            name = provider_name,
-            logoPath = logo_path
+            id = providerId,
+            name = providerName,
+            logoPath = logoPath
         )
 }

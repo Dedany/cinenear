@@ -2,6 +2,7 @@ package com.dedany.cinenear.ui.screens.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,10 +44,10 @@ import coil.compose.AsyncImage
 import com.dedany.cinenear.R
 import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.domain.entities.Providers
+import com.dedany.cinenear.domain.entities.Provider
 import com.dedany.cinenear.ui.common.AcScaffold
 import com.dedany.cinenear.ui.theme.Screen
 import com.dedany.cinenear.ui.common.Result
-
 
 const val LOADING_INDICATOR_TAG = "LOADING_INDICATOR"
 
@@ -120,14 +121,18 @@ fun DetailScreen(
 private fun DetailTopBar(
     title: String, scrollBehavior: TopAppBarScrollBehavior, onBack: () -> Unit
 ) {
-    TopAppBar(title = { Text(text = title) }, navigationIcon = {
-        IconButton(onClick = onBack) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.back)
-            )
-        }
-    }, scrollBehavior = scrollBehavior)
+    TopAppBar(
+        title = { Text(text = title) },
+        navigationIcon = {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back)
+                )
+            }
+        },
+        scrollBehavior = scrollBehavior
+    )
 }
 
 @Composable
@@ -148,7 +153,8 @@ private fun MovieDetail(
                 .aspectRatio(16 / 9f)
         )
         Text(
-            text = movie.overview, modifier = Modifier.padding(16.dp)
+            text = movie.overview,
+            modifier = Modifier.padding(16.dp)
         )
         Text(
             buildAnnotatedString {
@@ -183,31 +189,57 @@ private fun AnnotatedString.Builder.Property(name: String, value: String, end: B
 
 @Composable
 private fun ProvidersSection(providers: Providers?, modifier: Modifier = Modifier) {
-    println("Providers recibidos: $providers")
+    if (providers == null) {
+        Text("Cargando proveedores...")
+        return
+    }
 
-    when {
-        providers == null -> {
-            Text("Cargando proveedores...")
+    if (providers.buy.isNullOrEmpty() && providers.rent.isNullOrEmpty() && providers.flatrate.isNullOrEmpty()) {
+        Text("No disponible en plataformas.")
+        return
+    }
+
+    Column(modifier = modifier.padding(16.dp)) {
+        if (!providers.flatrate.isNullOrEmpty()) {
+            Text(
+                text = "Disponible en plataformas de suscripción:",
+                style = MaterialTheme.typography.titleMedium
+            )
+            ProvidersRow(providers.flatrate)
         }
 
-        providers.flatrate.isEmpty() -> {
-            Text("No disponible en plataformas de suscripción.")
+        if (!providers.rent.isNullOrEmpty()) {
+            Text(
+                text = "Disponible para alquilar:",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            ProvidersRow(providers.rent)
         }
 
-        else -> {
-            Column(modifier = modifier.padding(16.dp)) {
-                Text(text = "Available on:", style = MaterialTheme.typography.titleMedium)
-                providers.flatrate.forEach { provider ->
-                    AsyncImage(
-                        model = "https://image.tmdb.org/t/p/w45${provider.logoPath}",
-                        contentDescription = provider.name,
-                        modifier = Modifier.padding(4.dp)
-                    )
-                    Text(text = provider.name)
-                }
-            }
+        if (!providers.buy.isNullOrEmpty()) {
+            Text(
+                text = "Disponible para comprar:",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            ProvidersRow(providers.buy)
         }
     }
 }
 
-
+@Composable
+private fun ProvidersRow(providersList: List<Provider>) {
+    Row {
+        providersList.forEach { provider ->
+            Column(modifier = Modifier.padding(4.dp)) {
+                AsyncImage(
+                    model = "https://image.tmdb.org/t/p/w45${provider.logoPath}",
+                    contentDescription = provider.name,
+                    modifier = Modifier.padding(4.dp)
+                )
+                Text(text = provider.name, style = MaterialTheme.typography.bodySmall)
+            }
+        }
+    }
+}
