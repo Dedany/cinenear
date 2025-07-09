@@ -4,11 +4,11 @@ import com.dedany.cinenear.data.datasource.MoviesRemoteDataSource
 import com.dedany.cinenear.data.datasource.MoviesLocalDataSource
 import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.domain.entities.Providers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.onEach
+import com.dedany.cinenear.domain.model.MovieWithProviders
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 class MoviesRepository @Inject constructor(
     private val regionRepository: RegionRepository,
@@ -16,11 +16,25 @@ class MoviesRepository @Inject constructor(
     private val remoteDataSource: MoviesRemoteDataSource
 ) {
 
-    val movies: Flow<List<Movie>>
-        get() = localDataSource.movies.onEach { localMovies ->
+    private val _providersMap = MutableStateFlow<Map<Int, Providers>>(emptyMap())
+    val providersMap: StateFlow<Map<Int, Providers>> = _providersMap
+
+  val movies: Flow<List<Movie>> = localDataSource.movies.onEach { localMovies ->
         if (localMovies.isEmpty()) {
             val remoteMovies = remoteDataSource.fetchPopularMovies(regionRepository.findLastRegion())
             localDataSource.save(remoteMovies)
+        }
+    }
+
+    val moviesWithProviders: Flow<List<MovieWithProviders>> = combine(
+        movies,
+        providersMap
+    ) { movieList, providerMap ->
+        movieList.map { movie ->
+            MovieWithProviders(
+                movie = movie,
+                providers = providerMap[movie.id]
+            )
         }
     }
 
@@ -41,14 +55,3 @@ class MoviesRepository @Inject constructor(
         return remoteDataSource.fetchWatchProviders(movieId)
     }
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -17,8 +17,8 @@ android {
         applicationId = "com.dedany.cinenear"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 5
+        versionName = "3"
 
         testInstrumentationRunner = "com.dedany.cinenear.di.HiltTestRunner"
 
@@ -41,9 +41,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk {
+                debugSymbolLevel = "FULL"  // Genera símbolos completos para la depuración nativa
+            }
         }
     }
-
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21

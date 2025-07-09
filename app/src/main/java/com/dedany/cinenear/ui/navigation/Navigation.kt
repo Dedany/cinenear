@@ -10,6 +10,7 @@ import com.dedany.cinenear.ui.common.NavArgs
 import com.dedany.cinenear.ui.common.NavScreen
 import com.dedany.cinenear.ui.screens.detail.DetailScreen
 import com.dedany.cinenear.ui.screens.home.HomeScreen
+import com.dedany.cinenear.ui.screens.home.HomeScreenContainer
 
 @Composable
 fun Navigation() {
@@ -17,9 +18,9 @@ fun Navigation() {
 
     NavHost(navController = navController, startDestination = NavScreen.Home.route) {
         composable(NavScreen.Home.route) {
-            HomeScreen(
-                onMovieClick = { movie ->
-                    navController.navigate(NavScreen.Detail.createRoute(movie.id))
+            HomeScreenContainer(
+                onMovieClick = { movieId ->
+                    navController.navigate(NavScreen.Detail.createRoute(movieId))
                 }
             )
         }
@@ -29,7 +30,9 @@ fun Navigation() {
         ) { backStackEntry ->
             val movieId = requireNotNull(backStackEntry.arguments?.getInt(NavArgs.MovieId.key))
             DetailScreen(
-                onBack = { navController.popBackStack() })
+                movieId = movieId,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

@@ -24,6 +24,7 @@ class HomeScreenTest {
         composeTestRule.setContent {
             HomeScreen(
                 state = loadingState,
+
                 onMovieClick = {}
             )
         }

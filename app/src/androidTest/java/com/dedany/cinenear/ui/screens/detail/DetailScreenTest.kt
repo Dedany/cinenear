@@ -24,8 +24,9 @@ class DetailScreenTest {
     @Test
     fun whenLoadingState_showProgress(): Unit = with(composeTestRule) {
         setContent {
-            DetailScreen(
-                state = com.dedany.cinenear.ui.common.Result.Loading,
+            DetailScreenContent(
+                state = Result.Loading,
+                providersState = Result.Loading,
                 onBack = {},
                 onFavoriteClicked = {}
             )
@@ -37,8 +38,9 @@ class DetailScreenTest {
     @Test
     fun whenErrorState_showError(): Unit = with(composeTestRule) {
         setContent {
-            DetailScreen(
-                state = com.dedany.cinenear.ui.common.Result.Error(RuntimeException("An error occurred")),
+            DetailScreenContent(
+                state = Result.Error(RuntimeException("An error occurred")),
+                providersState = Result.Loading,
                 onBack = {},
                 onFavoriteClicked = {}
             )
@@ -50,8 +52,9 @@ class DetailScreenTest {
     @Test
     fun whenSuccessState_movieIsShown(): Unit = with(composeTestRule) {
         setContent {
-            DetailScreen(
-                state = com.dedany.cinenear.ui.common.Result.Success(sampleMovie(2)),
+            DetailScreenContent (
+                state = Result.Success(sampleMovie(2)),
+                providersState = Result.Loading,
                 onBack = {},
                 onFavoriteClicked = {}
             )
@@ -64,8 +67,9 @@ class DetailScreenTest {
     fun whenFavoriteClicked_listenerIsCalled(): Unit = with(composeTestRule) {
         var clicked = false
         setContent {
-            DetailScreen(
-                state = com.dedany.cinenear.ui.common.Result.Success(sampleMovie(2)),
+            DetailScreenContent (
+                state = Result.Success(sampleMovie(2)),
+                providersState = Result.Loading,
                 onBack = {},
                 onFavoriteClicked = { clicked = true }
             )
@@ -79,8 +83,9 @@ class DetailScreenTest {
     fun whenBackClicked_listenerIsCalled(): Unit = with(composeTestRule) {
         var clicked = false
         setContent {
-            DetailScreen(
+            DetailScreenContent(
                 state = Result.Success(sampleMovie(2)),
+                providersState = Result.Loading,
                 onBack = { clicked = true },
                 onFavoriteClicked = {}
             )
