@@ -45,4 +45,4 @@
 
 1. Clona el repositorio:  
 ```bash
-git clone https://github.com/tu-usuario/Cinenear.git
+git clone https://github.com/Dedany/cinenear.git
