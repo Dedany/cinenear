@@ -25,10 +25,6 @@
 ## 📸 Capturas
 
 | Pantalla principal | Detalle de película | Favoritos |
-|------------------|------------------|-----------|
-| ![Home](screenshots/home.png) | ![Detail](screenshots/detail.png) | ![Favorites](screenshots/favorites.png) |
-
-*(Coloca tus capturas en la carpeta `/screenshots` del proyecto)*  
 
 ---
 
