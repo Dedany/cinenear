@@ -22,11 +22,6 @@
 
 ---
 
-## 📸 Capturas
-
-| Pantalla principal | Detalle de película | Favoritos |
-
----
 
 ## 🛠 Tecnologías usadas
 
