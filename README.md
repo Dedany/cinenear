@@ -18,7 +18,9 @@
 - ⚡ **Arquitectura limpia**: módulos separados (`app`, `domain`, `data`)  
 - 🛠️ **Inyección de dependencias** con Hilt  
 - 📱 **UI moderna** con Jetpack Compose  
-- 🧪 **Tests unitarios e integración** con Turbine y Mockito  
+- 🧪 **Tests unitarios e integración** con Turbine y Mockito
+- - 🧪 **Tests UI**  - 🧪 **Tests UI** con [Espresso y Jetpack Compose Testing APIs](https://github.com/Dedany/cinenear/tree/main/app/src/test/java/com/dedany/cinenear/ui/screens)
+
 
 ---
 
