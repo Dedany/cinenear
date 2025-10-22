@@ -19,7 +19,8 @@
 - 🛠️ **Inyección de dependencias** con Hilt  
 - 📱 **UI moderna** con Jetpack Compose  
 - 🧪 **Tests unitarios e integración** con Turbine y Mockito
-- - 🧪 **Tests UI**  - 🧪 **Tests UI** con [Espresso y Jetpack Compose Testing APIs](https://github.com/Dedany/cinenear/tree/main/app/src/test/java/com/dedany/cinenear/ui/screens)
+- 🧪 **Tests UI** con [Espresso y Jetpack Compose Testing APIs](https://github.com/Dedany/cinenear/blob/main/app/src/androidTest/java/com/dedany/cinenear/MainInstumentedTest.kt)
+
 
 
 ---
