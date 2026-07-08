@@ -7,7 +7,6 @@ import com.dedany.cinenear.sampleMovies
 import com.dedany.cinenear.testrules.CoroutinesTestRule
 import com.dedany.cinenear.ui.common.Result
 import com.dedany.cinenear.usecases.FetchProvidersUseCase
-import com.dedany.cinenear.usecases.FetchWatchProvidersUseCase
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
 import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
 import junit.framework.TestCase.assertEquals

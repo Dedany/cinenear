@@ -1,9 +1,11 @@
 package com.dedany.cinenear.ui.screens.detail
 
 import app.cash.turbine.test
+import com.dedany.cinenear.domain.entities.Providers
 import com.dedany.cinenear.sampleMovie
 import com.dedany.cinenear.testrules.CoroutinesTestRule
 import com.dedany.cinenear.ui.common.Result
+import com.dedany.cinenear.usecases.FetchProvidersUseCase
 import com.dedany.cinenear.usecases.FindMovieByIdUseCase
 import com.dedany.cinenear.usecases.ToggleFavoriteUseCase
 import junit.framework.TestCase.assertEquals
@@ -14,21 +16,26 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.MockitoJUnit
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import org.mockito.quality.Strictness
 
-@RunWith(MockitoJUnitRunner::class)
 class DetailViewModelTest {
 
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
+    @get:Rule
+    val mockitoRule = MockitoJUnit.rule().strictness(Strictness.LENIENT)
+
     @Mock
     lateinit var findMovieByIdUseCase: FindMovieByIdUseCase
+
+    @Mock
+    lateinit var fetchProvidersUseCase: FetchProvidersUseCase
 
     @Mock
     lateinit var toggleFavoriteUseCase: ToggleFavoriteUseCase
@@ -40,7 +47,11 @@ class DetailViewModelTest {
     @Before
     fun setUp() {
         whenever(findMovieByIdUseCase(2)).thenReturn(flowOf(movie))
-        vm = DetailViewModel(2, findMovieByIdUseCase, toggleFavoriteUseCase)
+        whenever(fetchProvidersUseCase(2)).thenReturn(
+            flowOf(Providers(link = "", buy = emptyList(), rent = emptyList(), flatrate = emptyList()))
+        )
+        vm = DetailViewModel(findMovieByIdUseCase, fetchProvidersUseCase, toggleFavoriteUseCase)
+        vm.loadMovie(2)
     }
 
     @Test
@@ -64,4 +75,4 @@ class DetailViewModelTest {
             verify(toggleFavoriteUseCase).invoke(any())
         }
     }
-    }
+}

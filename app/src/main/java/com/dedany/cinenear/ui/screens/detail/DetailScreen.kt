@@ -155,7 +155,6 @@ private fun MovieDetail(
                 Property("Release date", movie.releaseDate)
                 Property("IMDB", movie.voteAverage.toString())
                 Property("Popularity", movie.popularity.toString())
-                Property("Vote count", movie.voteAverage.toString())
             },
             modifier = Modifier
                 .fillMaxWidth()

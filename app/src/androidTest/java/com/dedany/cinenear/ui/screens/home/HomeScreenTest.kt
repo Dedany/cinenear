@@ -3,15 +3,12 @@ package com.dedany.cinenear.ui.screens.home
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.printToLog
-import com.dedany.cinenear.domain.entities.Movie
-import com.dedany.cinenear.sampleMovies
+import com.dedany.cinenear.domain.model.PlatformFilter
+import com.dedany.cinenear.sampleMoviesWithProviders
 import junit.framework.TestCase.assertEquals
 import org.junit.Rule
 import org.junit.Test
-
 
 class HomeScreenTest {
 
@@ -24,23 +21,22 @@ class HomeScreenTest {
         composeTestRule.setContent {
             HomeScreen(
                 state = loadingState,
-
+                onFilterSelected = {},
                 onMovieClick = {}
             )
         }
 
-        // Usa un testTag para encontrar el CircularProgressIndicator
-        //composeTestRule.onRoot().printToLog("HomeScreenTest")
         composeTestRule.onNodeWithTag("LOADING_INDICATOR").assertExists()
     }
 
     @Test
     fun whenMoviesArePresent_displayThem() {
-        val movies = sampleMovies(1, 2, 3)
+        val movies = sampleMoviesWithProviders(1, 2, 3)
 
         composeTestRule.setContent {
             HomeScreen(
                 state = HomeViewModel.UiState(loading = false, movies = movies),
+                onFilterSelected = {},
                 onMovieClick = {}
             )
         }
@@ -50,18 +46,36 @@ class HomeScreenTest {
 
     @Test
     fun whenMovieClicked_callbackIsInvoked() {
-        val movies = sampleMovies(1, 2, 3)
-        var selectedMovie: Movie? = null
+        val movies = sampleMoviesWithProviders(1, 2, 3)
+        var selectedMovieId: Int? = null
 
         composeTestRule.setContent {
             HomeScreen(
                 state = HomeViewModel.UiState(loading = false, movies = movies),
-                onMovieClick = { selectedMovie = it }
+                onFilterSelected = {},
+                onMovieClick = { selectedMovieId = it }
             )
         }
 
         composeTestRule.onNodeWithText("Title 2").performClick()
 
-        assertEquals(2, selectedMovie?.id)
+        assertEquals(2, selectedMovieId)
+    }
+
+    @Test
+    fun whenFilterSelected_callbackIsInvoked() {
+        var selectedFilter: PlatformFilter? = null
+
+        composeTestRule.setContent {
+            HomeScreen(
+                state = HomeViewModel.UiState(loading = false),
+                onFilterSelected = { selectedFilter = it },
+                onMovieClick = {}
+            )
+        }
+
+        composeTestRule.onNodeWithText("Rent").performClick()
+
+        assertEquals(PlatformFilter.RENT, selectedFilter)
     }
 }

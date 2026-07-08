@@ -23,9 +23,10 @@ import com.dedany.cinenear.domain.model.PlatformFilter
 fun HomeScreen(
     state: HomeViewModel.UiState,
     onFilterSelected: (PlatformFilter) -> Unit,
-    onMovieClick: (Int) -> Unit
+    onMovieClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
 
         // --- Filtros arriba ---
         Row(
@@ -38,8 +39,7 @@ fun HomeScreen(
             PlatformFilter.values().forEach { filter ->
                 FilterChip(
                     selected = filter == state.selectedFilter,
-                    onClick = { println("filtro seleccionado: $filter")
-                        onFilterSelected(filter) },
+                    onClick = { onFilterSelected(filter) },
                     label = { Text(filter.name.lowercase().replaceFirstChar { it.uppercase() }) }
                 )
             }

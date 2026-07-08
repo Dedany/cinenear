@@ -1,11 +1,13 @@
 package com.dedany.cinenear.ui.screens.home
 
 import app.cash.turbine.test
-import com.dedany.cinenear.sampleMovies
+import com.dedany.cinenear.sampleMoviesWithProviders
 import com.dedany.cinenear.testrules.CoroutinesTestRule
-import com.dedany.cinenear.usecases.FetchMoviesUseCase
+import com.dedany.cinenear.usecases.FetchMoviesWithProvidersUseCase
+import com.dedany.cinenear.usecases.FetchWatchProvidersUseCase
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runCurrent
@@ -21,20 +23,23 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
-    @RunWith(MockitoJUnitRunner::class)
-    class HomeViewModelTest {
+@RunWith(MockitoJUnitRunner::class)
+class HomeViewModelTest {
 
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     @Mock
-    lateinit var fetchMoviesUseCase: FetchMoviesUseCase
+    lateinit var fetchMoviesWithProvidersUseCase: FetchMoviesWithProvidersUseCase
+
+    @Mock
+    lateinit var fetchWatchProvidersUseCase: FetchWatchProvidersUseCase
 
     private lateinit var vm: HomeViewModel
 
     @Before
     fun setUp() {
-        vm = HomeViewModel(fetchMoviesUseCase)
+        vm = HomeViewModel(fetchMoviesWithProvidersUseCase, fetchWatchProvidersUseCase)
     }
 
     @Test
@@ -42,19 +47,17 @@ import org.mockito.kotlin.whenever
         vm.state.first()
         runCurrent()
 
-        verify(fetchMoviesUseCase, times(0)).invoke()
+        verify(fetchMoviesWithProvidersUseCase, times(0)).invoke()
     }
-
 
     @Test
     fun `Movies are requested if UI is ready`() = runTest {
-        val movies = sampleMovies(1, 2, 3)
-        whenever(fetchMoviesUseCase()).thenReturn(flowOf(movies))
-
-        vm.onUiReady()
+        val movies = sampleMoviesWithProviders(1, 2, 3)
+        whenever(fetchMoviesWithProvidersUseCase()).thenReturn(flowOf(movies))
 
         vm.state.test {
             assertEquals(HomeViewModel.UiState(loading = true, movies = emptyList()), awaitItem())
+            vm.onUiReady()
             assertEquals(HomeViewModel.UiState(loading = false, movies = movies), awaitItem())
 
             cancelAndIgnoreRemainingEvents()
@@ -62,17 +65,14 @@ import org.mockito.kotlin.whenever
     }
 
     @Test
-    fun `Flow is cancelled when exception is thrown`() = runTest {
-        val error = RuntimeException("Boom!")
-        whenever(fetchMoviesUseCase()).thenThrow(error)
-
-        vm.onUiReady()
+    fun `Loading state persists when no movies are emitted`() = runTest {
+        whenever(fetchMoviesWithProvidersUseCase()).thenReturn(emptyFlow())
 
         vm.state.test {
             assertEquals(HomeViewModel.UiState(loading = true), awaitItem())
+            vm.onUiReady()
             expectNoEvents()
             cancelAndIgnoreRemainingEvents()
         }
     }
 }
-

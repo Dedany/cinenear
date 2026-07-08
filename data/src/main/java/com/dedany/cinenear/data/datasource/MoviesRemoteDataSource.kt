@@ -9,6 +9,6 @@ interface MoviesRemoteDataSource {
 
     suspend fun findMovieById(id: Int): Movie
 
-    suspend fun fetchWatchProviders(id: Int): Providers
+    suspend fun fetchWatchProviders(id: Int, region: String): Providers
 }
 

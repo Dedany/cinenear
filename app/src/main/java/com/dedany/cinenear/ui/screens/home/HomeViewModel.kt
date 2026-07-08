@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
 
     private val _selectedFilter = MutableStateFlow(PlatformFilter.ALL)
     private val _uiReady = MutableStateFlow(false)
-    private val _providersMap = MutableStateFlow<Map<Int, Providers>>(emptyMap()) // <- FALTABA ESTO
+    private val _providersMap = MutableStateFlow<Map<Int, Providers>>(emptyMap())
 
     // Flujo de películas
     private val allMoviesFlow = _uiReady
@@ -73,7 +73,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onFilterSelected(filter: PlatformFilter) {
-        println("ViewModel: Filtro cambiado a: $filter")
         _selectedFilter.value = filter
     }
 
@@ -84,8 +83,7 @@ class HomeViewModel @Inject constructor(
                     try {
                         val providers = fetchWatchProvidersUseCase(movie.id)
                         _providersMap.value = _providersMap.value + (movie.id to providers)
-                    } catch (e: Exception) {
-                        println("Error al cargar providers de ${movie.title}: ${e.message}")
+                    } catch (_: Exception) {
                     }
                 }
             }

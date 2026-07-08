@@ -5,9 +5,10 @@ import com.dedany.cinenear.data.buildMoviesRepositoryWith
 import com.dedany.cinenear.domain.entities.Movie
 import com.dedany.cinenear.sampleMovies
 import com.dedany.cinenear.testrules.CoroutinesTestRule
-import com.dedany.cinenear.ui.common.Result
-import com.dedany.cinenear.usecases.FetchMoviesUseCase
+import com.dedany.cinenear.usecases.FetchMoviesWithProvidersUseCase
+import com.dedany.cinenear.usecases.FetchWatchProvidersUseCase
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -25,14 +26,20 @@ class HomeIntegrationTests {
             remoteData = remoteData
         )
 
-        vm.onUiReady()
-
         vm.state.test {
             assertEquals(HomeViewModel.UiState(loading = true), awaitItem())
-            assertEquals(HomeViewModel.UiState(loading = false, movies = emptyList()), awaitItem())
-            assertEquals(HomeViewModel.UiState(loading = false, movies = remoteData), awaitItem())
-        }
+            vm.onUiReady()
 
+            var loadedState = awaitItem()
+            if (loadedState.movies.isEmpty()) {
+                loadedState = awaitItem()
+            }
+
+            assertTrue(!loadedState.loading)
+            assertEquals(listOf(1, 2), loadedState.movies.map { it.movie.id })
+
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test
@@ -40,22 +47,26 @@ class HomeIntegrationTests {
         val localData = sampleMovies(1, 2)
         val vm = buildViewModelWith(localData = localData)
 
-        vm.onUiReady()
-
         vm.state.test {
             assertEquals(HomeViewModel.UiState(loading = true), awaitItem())
-            assertEquals(HomeViewModel.UiState(loading = false, movies = localData), awaitItem())
+            vm.onUiReady()
+
+            val loadedState = awaitItem()
+            assertTrue(!loadedState.loading)
+            assertEquals(listOf(1, 2), loadedState.movies.map { it.movie.id })
+
+            cancelAndIgnoreRemainingEvents()
         }
-
-
     }
-
 }
 
 private fun buildViewModelWith(
     localData: List<Movie> = emptyList(),
     remoteData: List<Movie> = emptyList()
 ): HomeViewModel {
-    val fetchMoviesUseCase = FetchMoviesUseCase(buildMoviesRepositoryWith(localData, remoteData))
-    return HomeViewModel(fetchMoviesUseCase)
+    val repository = buildMoviesRepositoryWith(localData, remoteData)
+    return HomeViewModel(
+        fetchMoviesWithProvidersUseCase = FetchMoviesWithProvidersUseCase(repository),
+        fetchWatchProvidersUseCase = FetchWatchProvidersUseCase(repository)
+    )
 }

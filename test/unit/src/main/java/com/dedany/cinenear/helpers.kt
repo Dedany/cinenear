@@ -1,11 +1,12 @@
 package com.dedany.cinenear
 
 import com.dedany.cinenear.domain.entities.Movie
+import com.dedany.cinenear.domain.model.MovieWithProviders
 
 
 fun sampleMovie(id: Int) = Movie(
     id = id,
-    title = "Title",
+    title = "Title $id",
     overview = "Overview",
     releaseDate = "01/01/2025",
     poster = "",
@@ -18,3 +19,10 @@ fun sampleMovie(id: Int) = Movie(
 )
 
 fun sampleMovies(vararg ids: Int) = ids.map { sampleMovie(it) }
+
+fun sampleMovieWithProviders(id: Int) = MovieWithProviders(
+    movie = sampleMovie(id),
+    providers = null
+)
+
+fun sampleMoviesWithProviders(vararg ids: Int) = ids.map { sampleMovieWithProviders(it) }

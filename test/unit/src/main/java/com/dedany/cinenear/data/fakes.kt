@@ -47,7 +47,7 @@ class FakeRemoteDataSource : MoviesRemoteDataSource {
 
     override suspend fun findMovieById(id: Int): Movie = movies.first { it.id == id }
 
-    override suspend fun fetchWatchProviders(id: Int): Providers {
+    override suspend fun fetchWatchProviders(id: Int, region: String): Providers {
         return Providers(
             link = "https://fake.link/movie/$id",
             buy = listOf(Provider(id = 1, name = "FakeBuy", logoPath = null)),

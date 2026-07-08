@@ -23,10 +23,10 @@ class MoviesRemoteDataSourceImpl @Inject constructor(
         moviesService.fetchMovieById(id)
             .toDomainModel()
 
-    override suspend fun fetchWatchProviders(id: Int): Providers {
+    override suspend fun fetchWatchProviders(id: Int, region: String): Providers {
         val response = moviesService.fetchWatchProviders(id)
 
-        val countryProviders = response.results["ES"] ?: ProviderCountry(
+        val countryProviders = response.results[region] ?: ProviderCountry(
             link = "",
             buy = emptyList(),
             rent = emptyList(),
